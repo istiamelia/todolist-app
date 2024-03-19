@@ -1,0 +1,11 @@
+<% for (let todo of completedTasks){ %>
+    <ul id="list">
+        <s>
+            <li>
+                <label for="completedCheck">
+                    <%= todo.title %>
+                </label>
+            </li>
+        </s>
+    </ul>
+    <% } %>

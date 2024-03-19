@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo App</title>
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+  <script src="/index.js"></script>
+</head>
+
+<body>
+  <div id="root">
+    <h1>To-do List</h1>
+    <div id="task-form">
+      <form action="/todos" id="task-form" method="post">
+        <input type="text" id="new-task-title" placeholder="add a task.." name="title">
+        <input type="hidden" name="completed" value="false">
+        <button type="submit" id="submitBtn">Add</button>
+      </form>
+      <form action="/todos?_method=DELETE" method="post">
+        <button type="submit" id="deleteAllBtn">Delete All</button>
+      </form>
+      <button id="completedBtn" onclick="isComplete()">Completed Task</button>
+    </div>
+    <div id="completed"></div>
+    <%-partial('todos', todos)%>
+
+  </div>
+
+
+
+</body>
+
+</html>

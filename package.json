@@ -1,0 +1,37 @@
+{
+  "name": "todolist-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index",
+  "scripts": {
+    "start": "node dist/app.js",
+    "tsc:w": "tsc -w --outDir dist",
+    "dev": "nodemon --exec ts-node src/app.ts",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^4.17.21",
+    "@types/method-override": "^0.0.35",
+    "@types/node": "^20.11.10",
+    "@types/pg": "^8.11.0",
+    "body-parser": "^1.20.2",
+    "ejs": "^3.1.9",
+    "ejs-mate": "^4.0.0",
+    "express": "^4.16.4",
+    "method-override": "^3.0.0",
+    "pg": "^8.11.3",
+    "routes": "^2.1.0",
+    "typescript": "^5.3.3",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.7.1"
+  }
+}
