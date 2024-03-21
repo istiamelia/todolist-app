@@ -17,7 +17,7 @@ const port = 3000;
 // Parse JSON bodies, allow us to post and get JSON
 app.use(express.json());
 
-// Parse URL-encoded bodies with extended options
+// Middleware to parse URL-encoded bodies with extended options
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
 
