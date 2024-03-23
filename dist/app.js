@@ -1,4 +1,5 @@
-import express from "express"; // import express module
+// import express module
+import express from "express";
 import path from "path";
 // @ts-ignore
 import engine from "ejs-mate";
@@ -6,12 +7,13 @@ import todoRoutes from "./routes";
 import pool from "./db";
 //defining method-override to manipulate the HTTP methods
 import methodOverride from 'method-override';
-const app = express(); // create an instant of express application 
+// create an instant of express application 
+const app = express();
 const port = 3000;
 // ---- Configuring Middleware
 // Parse JSON bodies, allow us to post and get JSON
 app.use(express.json());
-// Parse URL-encoded bodies with extended options
+// Middleware to parse URL-encoded bodies with extended options
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
 // use ejs-locals for all ejs templates:

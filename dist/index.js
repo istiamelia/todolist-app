@@ -18,7 +18,9 @@ function loadPartial() {
         try {
             // Fetch the content of the partial
             const response = yield fetch('/path/to/completed');
+            // saving the promise response into string using method text()
             const partialContent = yield response.text();
+            // acessing HTML element through DOM
             const rootElement = document.getElementById("completed");
             const completedBtn = document.getElementById("completedBtn");
             // Inject the partial content into the root element

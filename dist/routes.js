@@ -11,16 +11,13 @@ import { Router } from "express";
 import pool from "./db";
 import { getTasks, getTaskbyId, addTasks, deleteTask, updateTask, deleteAllTasks, completedTask, getCompletedTasks } from "./queries";
 const router = Router();
-// ... your route definitions
 export default router;
 // --- Get Request to fetch all data from the database
 router.get("/todos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield pool.query(getTasks);
-        const resultCompleted = yield pool.query(getCompletedTasks);
         const todos = result.rows;
-        const completedTasks = resultCompleted.rows;
-        res.render('index', { todos, completedTasks });
+        res.render('index', { todos });
     }
     catch (error) {
         console.error("Error fetching todos", error);
@@ -64,7 +61,6 @@ router.delete("/todos/:id", (req, res) => __awaiter(void 0, void 0, void 0, func
         }
         yield pool.query(deleteTask(id));
         res.redirect('/todos');
-        // res.status(200).send("Task removed successfully!");
     }
     catch (error) {
         console.error("Error deleting todos", error);
@@ -72,6 +68,7 @@ router.delete("/todos/:id", (req, res) => __awaiter(void 0, void 0, void 0, func
     }
 }));
 // --- Put Request to Update a particular task
+// --- Still considering whether this feature to update a particular task is necessary
 router.put("/todos/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = parseInt(req.params.id);
     const { title } = req.body;
@@ -101,7 +98,8 @@ router.delete("/todos", (req, res) => __awaiter(void 0, void 0, void 0, function
         res.status(500).json({ error: "Error deleting todos" });
     }
 }));
-// --- Put Request to Move Database to other table
+// --- Post request to insert a particular task from the tasks table to completed_tasks table
+// --- And the task will also be deleted from tasks table
 router.post("/todos/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = parseInt(req.params.id);
     try {
@@ -114,6 +112,9 @@ router.post("/todos/:id", (req, res) => __awaiter(void 0, void 0, void 0, functi
         res.status(500).json({ error: "Error deleting todos" });
     }
 }));
+// --- Since the interface to show the completed tasks is intended to be dynamic, which can be fetch alongside the main tasks in the same page
+// --- this get request is to create a path to fetch the data from completed_tasks table and then rendered into completed.ejs
+// --- after being rendered the content in completed.ejs will be injected into DOM via loadpartial() *see index.ts
 router.get('/path/to/completed', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const resultCompleted = yield pool.query(getCompletedTasks);
