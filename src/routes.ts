@@ -44,6 +44,7 @@ router.get("/todos/:id", async (req: Request, res: Response) => {
 router.post("/todos", async (req: Request, res: Response) => {
     const { title, completed } = req.body
     try {
+        //create validation for the data type and the number of the characthers
         await pool.query(addTasks, [title, completed]);
         res.redirect('/todos')
         // res.status(201).send("Task created successfully!");
