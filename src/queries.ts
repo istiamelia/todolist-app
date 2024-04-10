@@ -1,7 +1,7 @@
 import { QueryConfig } from 'pg';
 type SqlQuery = string;
 
-export const getTasks: SqlQuery = "SELECT * FROM tasks";
+export const getTasks: SqlQuery = "SELECT * FROM tasks WHERE completed = false";
 export const getCompletedTasks: SqlQuery = "SELECT * FROM completed_tasks";
 
 export const getTaskbyId: (id: number) => QueryConfig<any[]> = (id) => ({
