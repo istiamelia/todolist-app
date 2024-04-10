@@ -8,6 +8,7 @@ export const getTaskbyId: (id: number) => QueryConfig<any[]> = (id) => ({
     text: "SELECT * FROM tasks WHERE id = $1",
     values: [id],
 });
+
 // pool.query in routes.ts expects an object with a text property  (the SQL query string) and a values property (an array of parameter values). so we adjust our function with 'Queryconfig' object
 // $1 is the parameter that will enable us to pass variable into it
 
@@ -26,8 +27,13 @@ export const updateTask: (id: number, title: string) => QueryConfig<any[]> = (ti
 
 export const deleteAllTasks: SqlQuery = "DELETE FROM tasks";
 
-export const completedTask: (id: number) => QueryConfig<any[]> = (id) => ({
-    text: "INSERT INTO completed_tasks (id, title) SELECT id, title FROM tasks WHERE id = $1",
+// export const completedTask: (id: number) => QueryConfig<any[]> = (id) => ({
+//     text: "INSERT INTO completed_tasks (id, title) SELECT id, title FROM tasks WHERE id = $1",
+//     values: [id],
+// });
+
+
+export const updateCompleted: (id: number) => QueryConfig<any[]> = (id) => ({
+    text: "UPDATE tasks SET completed = true where id = $1",
     values: [id],
 });
-
