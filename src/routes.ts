@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import { QueryResult } from "pg";
 import pool from "./db";
-import { getTasks, getTaskbyId, addTasks, deleteTask, updateTask, deleteAllTasks, updateCompleted } from "./queries";
+import { getTasks, getTaskbyId, addTasks, deleteTask, updateTask, deleteAllTasks, updateCompleted, getCompletedTasks } from "./queries";
 
 const router = Router();
 export default router;
@@ -119,13 +119,13 @@ router.post("/todos/:id", async (req: Request, res: Response) => {
 // --- Since the interface to show the completed tasks is intended to be dynamic, which can be fetch alongside the main tasks in the same page
 // --- this get request is to create a path to fetch the data from completed_tasks table and then rendered into completed.ejs
 // --- after being rendered the content in completed.ejs will be injected into DOM via loadpartial() *see index.ts
-// router.get('/path/to/completed', async (req: Request, res: Response) => {
-//     try {
-//         const resultCompleted: QueryResult = await pool.query(getCompletedTasks);
-//         const completedTasks: Todo[] = resultCompleted.rows;
-//         res.render('completed', { completedTasks })
-//     } catch (error) {
-//         console.error("Error fetching todos", error);
-//         res.status(500).json({ error: "Error fetching todos" });
-//     }
-// });
+router.get('/path/to/completed', async (req: Request, res: Response) => {
+    try {
+        const resultCompleted: QueryResult = await pool.query(getCompletedTasks);
+        const completedTasks: Todo[] = resultCompleted.rows;
+        res.render('completed', { completedTasks })
+    } catch (error) {
+        console.error("Error fetching todos", error);
+        res.status(500).json({ error: "Error fetching todos" });
+    }
+});
