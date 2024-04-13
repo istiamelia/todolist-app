@@ -25,7 +25,7 @@ export const updateTask: (id: string, title: string) => QueryConfig<any[]> = (ti
     values: [title, id],
 });
 
-export const deleteAllTasks: SqlQuery = "DELETE FROM tasks";
+export const deleteAllTasks: SqlQuery = "UPDATE tasks SET deleted_at = NOW() WHERE completed = false";
 
 // export const completedTask: (id: number) => QueryConfig<any[]> = (id) => ({
 //     text: "INSERT INTO completed_tasks (id, title) SELECT id, title FROM tasks WHERE id = $1",
