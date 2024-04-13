@@ -1,5 +1,5 @@
 CREATE TABLE tasks (
-    id INT NOT NULL,
+    id UUID NOT NULL,
     title VARCHAR(255),
     completed BOOLEAN,
     deleted_at TIMESTAMP NULL,
