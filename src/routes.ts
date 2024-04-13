@@ -9,7 +9,7 @@ export default router;
 
 // Define an interface name Todo to outline the structure of the to-do item
 interface Todo {
-    id: number;
+    id: string;
     title: string;
     completed: boolean;
 }
@@ -30,7 +30,7 @@ router.get("/todos", async (req: Request, res: Response) => {
 
 // --- Get Request to fetch all data from the database based on Id
 router.get("/todos/:id", async (req: Request, res: Response) => {
-    const id = parseInt(req.params.id)
+    const id = req.params.id
     try {
         const result: QueryResult = await pool.query(getTaskbyId(id));
         const todos: Todo[] = result.rows;
@@ -58,7 +58,7 @@ router.post("/todos", async (req: Request, res: Response) => {
 
 // --- Delete Request to delete particular task from the database
 router.delete("/todos/:id", async (req: Request, res: Response) => {
-    const id = parseInt(req.params.id)
+    const id = req.params.id
     try {
         // first, checking wether the task exist in the database
         const result: QueryResult = await pool.query(getTaskbyId(id));
@@ -76,7 +76,7 @@ router.delete("/todos/:id", async (req: Request, res: Response) => {
 // --- Put Request to Update a particular task
 // --- Still considering whether this feature to update a particular task is necessary
 router.put("/todos/:id", async (req: Request, res: Response) => {
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
     const { title } = req.body;
     try {
         // first, checking wether the task exist in the database
@@ -107,7 +107,7 @@ router.delete("/todos", async (req: Request, res: Response) => {
 // --- Post request to insert a particular task from the tasks table to completed_tasks table
 // --- And the task will also be deleted from tasks table
 router.post("/todos/:id", async (req: Request, res: Response) => {
-    const id = parseInt(req.params.id)
+    const id = req.params.id
     try {
         await pool.query(updateCompleted(id))
         res.redirect('/todos')

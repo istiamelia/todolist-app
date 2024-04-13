@@ -1,10 +1,10 @@
 import { QueryConfig } from 'pg';
 type SqlQuery = string;
 
-export const getTasks: SqlQuery = "SELECT * FROM tasks WHERE completed = false";
-export const getCompletedTasks: SqlQuery = "SELECT * FROM tasks WHERE completed = true";
+export const getTasks: SqlQuery = "SELECT * FROM tasks WHERE completed = false AND deleted_at IS NULL";
+export const getCompletedTasks: SqlQuery = "SELECT * FROM tasks WHERE completed = true AND deleted_at IS NULL";
 
-export const getTaskbyId: (id: number) => QueryConfig<any[]> = (id) => ({
+export const getTaskbyId: (id: string) => QueryConfig<any[]> = (id) => ({
     text: "SELECT * FROM tasks WHERE id = $1",
     values: [id],
 });
@@ -15,12 +15,12 @@ export const getTaskbyId: (id: number) => QueryConfig<any[]> = (id) => ({
 
 export const addTasks: SqlQuery = "INSERT INTO tasks (id, title, completed) VALUES ($1, $2, $3)";
 
-export const deleteTask: (id: number) => QueryConfig<any[]> = (id) => ({
-    text: "DELETE FROM tasks WHERE id = $1",
+export const deleteTask: (id: string) => QueryConfig<any[]> = (id) => ({
+    text: "UPDATE tasks SET deleted_at = NOW() WHERE id = $1",
     values: [id],
 });
 
-export const updateTask: (id: number, title: string) => QueryConfig<any[]> = (title, id) => ({
+export const updateTask: (id: string, title: string) => QueryConfig<any[]> = (title, id) => ({
     text: "UPDATE tasks SET title = $1 WHERE id = $2",
     values: [title, id],
 });
@@ -33,7 +33,7 @@ export const deleteAllTasks: SqlQuery = "DELETE FROM tasks";
 // });
 
 
-export const updateCompleted: (id: number) => QueryConfig<any[]> = (id) => ({
+export const updateCompleted: (id: string) => QueryConfig<any[]> = (id) => ({
     text: "UPDATE tasks SET completed = true where id = $1",
     values: [id],
 });
