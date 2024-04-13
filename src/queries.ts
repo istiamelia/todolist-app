@@ -13,7 +13,7 @@ export const getTaskbyId: (id: number) => QueryConfig<any[]> = (id) => ({
 // $1 is the parameter that will enable us to pass variable into it
 
 
-export const addTasks: SqlQuery = "INSERT INTO tasks (title, completed) VALUES ($1, $2)";
+export const addTasks: SqlQuery = "INSERT INTO tasks (id, title, completed) VALUES ($1, $2, $3)";
 
 export const deleteTask: (id: number) => QueryConfig<any[]> = (id) => ({
     text: "DELETE FROM tasks WHERE id = $1",

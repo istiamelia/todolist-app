@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import { QueryResult } from "pg";
 import pool from "./db";
+import { v4 as uuidv4 } from 'uuid';
 import { getTasks, getTaskbyId, addTasks, deleteTask, updateTask, deleteAllTasks, updateCompleted, getCompletedTasks } from "./queries";
 
 const router = Router();
@@ -43,9 +44,10 @@ router.get("/todos/:id", async (req: Request, res: Response) => {
 // --- POST Request to retreive the data from req.body and save it to the database
 router.post("/todos", async (req: Request, res: Response) => {
     const { title, completed } = req.body
+    const id = uuidv4()
     try {
         //create validation for the data type and the number of the characthers
-        await pool.query(addTasks, [title, completed]);
+        await pool.query(addTasks, [id, title, completed]);
         res.redirect('/todos')
         // res.status(201).send("Task created successfully!");
     } catch (error) {
