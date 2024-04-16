@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { QueryResult } from "pg";
-import pool from "./db";
+import pool from "../config/db";
 import { v4 as uuidv4 } from 'uuid';
 import { getTasks, getTaskbyId, addTasks, deleteTask, updateTask, deleteAllTasks, updateCompleted, getCompletedTasks } from "./queries";
 
