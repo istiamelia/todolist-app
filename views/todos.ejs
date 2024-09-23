@@ -12,7 +12,7 @@
                                 onchange="document.getElementById('completedForm_<%= todo.id %>').submit()"
                                 name="completedCheck">
                         </form>
-                        <%= todo.title %>
+                        <%= todo.task_name %>
                             <form action="/todos/<%= todo.id %>?_method=DELETE" method="post"><button
                                     id="delete">Delete</button>
                             </form>

@@ -40,11 +40,11 @@ router.get("/todos/:id", (req, res) => __awaiter(void 0, void 0, void 0, functio
 }));
 // --- POST Request to retreive the data from req.body and save it to the database
 router.post("/todos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { title, completed } = req.body;
+    const { task_name, task_status } = req.body;
     const id = uuidv4();
     try {
         //create validation for the data type and the number of the characthers
-        yield pool.query(addTasks, [id, title, completed]);
+        yield pool.query(addTasks, [id, task_name, task_status]);
         res.redirect('/todos');
         // res.status(201).send("Task created successfully!");
     }
@@ -74,7 +74,7 @@ router.delete("/todos/:id", (req, res) => __awaiter(void 0, void 0, void 0, func
 // --- Still considering whether this feature to update a particular task is necessary
 router.put("/todos/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params['id'];
-    const { title } = req.body;
+    const { task_name } = req.body;
     try {
         // first, checking wether the task exist in the database
         const result = yield pool.query(getTaskbyId(id));
@@ -82,7 +82,7 @@ router.put("/todos/:id", (req, res) => __awaiter(void 0, void 0, void 0, functio
             res.send("Task does not exist in the database");
         }
         ;
-        yield pool.query(updateTask(title, id.toString()));
+        yield pool.query(updateTask(task_name, id.toString()));
         res.status(200).send("Task updated successfully!");
     }
     catch (error) {
@@ -101,8 +101,7 @@ router.delete("/todos", (req, res) => __awaiter(void 0, void 0, void 0, function
         res.status(500).json({ error: "Error deleting todos" });
     }
 }));
-// --- Post request to insert a particular task from the tasks table to completed_tasks table
-// --- And the task will also be deleted from tasks table
+// --- Post request to update task_status into completed
 router.post("/todos/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params['id'];
     try {

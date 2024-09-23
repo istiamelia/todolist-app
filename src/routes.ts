@@ -10,8 +10,8 @@ export default router;
 // Define an interface name Todo to outline the structure of the to-do item
 interface Todo {
     id: string;
-    title: string;
-    completed: boolean;
+    task_name: string;
+    task_status: string;
 }
 
 

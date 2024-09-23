@@ -1,8 +1,8 @@
 import { QueryConfig } from 'pg';
 type SqlQuery = string;
 
-export const getTasks: SqlQuery = "SELECT * FROM tasks WHERE task_status != Completed AND deleted_at IS NULL";
-export const getCompletedTasks: SqlQuery = "SELECT * FROM tasks WHERE task_status = Completed AND deleted_at IS NULL";
+export const getTasks: SqlQuery = "SELECT * FROM tasks WHERE task_status != 'Completed' AND deleted_at IS NULL";
+export const getCompletedTasks: SqlQuery = "SELECT * FROM tasks WHERE task_status = 'Completed' AND deleted_at IS NULL";
 
 export const getTaskbyId: (id: string) => QueryConfig<any[]> = (id) => ({
     text: "SELECT * FROM tasks WHERE id = $1",
@@ -34,6 +34,6 @@ export const deleteAllTasks: SqlQuery = "UPDATE tasks SET deleted_at = NOW()";
 
 
 export const updateCompleted: (id: string) => QueryConfig<any[]> = (id) => ({
-    text: "UPDATE tasks SET task_status = Completed where id = $1",
+    text: "UPDATE tasks SET task_status = 'Completed' where id = $1",
     values: [id],
 });
