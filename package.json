@@ -8,6 +8,7 @@
     "tsc:w": "tsc -w --outDir dist",
     "dev": "nodemon --exec ts-node src/app.ts",
     "build": "tsc",
+    "build:css": "tailwindcss -i ./src/input.css -o ./views/css/output.css --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "type": "module",
@@ -15,11 +16,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tailwindcss/forms": "^0.5.9",
     "@types/express": "^4.17.21",
     "@types/method-override": "^0.0.35",
     "@types/node": "^20.11.10",
     "@types/pg": "^8.11.0",
     "@types/uuid": "^9.0.8",
+    "autoprefixer": "^10.4.20",
     "body-parser": "^1.20.2",
     "config": "^3.3.11",
     "dotenv": "^16.4.5",
@@ -27,7 +30,7 @@
     "ejs-mate": "^4.0.0",
     "express": "^4.16.4",
     "method-override": "^3.0.0",
-    "pg": "^8.11.3",
+    "pg": "^8.12.0",
     "routes": "^2.1.0",
     "typescript": "^5.3.3",
     "uuid": "^9.0.1"
@@ -35,6 +38,8 @@
   "devDependencies": {
     "@types/config": "^3.3.4",
     "nodemon": "^3.1.0",
+    "postcss-cli": "^11.0.0",
+    "tailwindcss": "^3.4.11",
     "ts-node": "^10.9.2",
     "tsx": "^4.7.1"
   }

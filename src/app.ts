@@ -7,9 +7,11 @@ import path from "path";
 // @ts-ignore
 import engine from "ejs-mate";
 import todoRoutes from "./routes";
-import pool from "../config/db";
+import pool from "./config/db";
 //defining method-override to manipulate the HTTP methods
 import methodOverride from 'method-override';
+
+
 
 
 // create an instant of express application 
@@ -20,6 +22,7 @@ const port = 3000;
 
 // Parse JSON bodies, allow us to post and get JSON
 app.use(express.json());
+
 
 // Middleware to parse URL-encoded bodies with extended options
 app.use(express.urlencoded({ extended: false }));

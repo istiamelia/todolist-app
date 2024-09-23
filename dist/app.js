@@ -1,10 +1,13 @@
 // import express module
 import express from "express";
+//Import dotnev for environment variables
+import dotenv from 'dotenv';
+dotenv.config();
 import path from "path";
 // @ts-ignore
 import engine from "ejs-mate";
 import todoRoutes from "./routes";
-import pool from "./db";
+import pool from "./config/db";
 //defining method-override to manipulate the HTTP methods
 import methodOverride from 'method-override';
 // create an instant of express application 

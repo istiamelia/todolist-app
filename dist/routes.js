@@ -8,8 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { Router } from "express";
-import pool from "./db";
-import { getTasks, getTaskbyId, addTasks, deleteTask, updateTask, deleteAllTasks, completedTask, getCompletedTasks } from "./queries";
+import pool from "./config/db";
+import { v4 as uuidv4 } from 'uuid';
+import { getTasks, getTaskbyId, addTasks, deleteTask, updateTask, deleteAllTasks, updateCompleted, getCompletedTasks } from "./queries";
 const router = Router();
 export default router;
 // --- Get Request to fetch all data from the database
@@ -26,7 +27,7 @@ router.get("/todos", (req, res) => __awaiter(void 0, void 0, void 0, function* (
 }));
 // --- Get Request to fetch all data from the database based on Id
 router.get("/todos/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = parseInt(req.params.id);
+    const id = req.params['id'];
     try {
         const result = yield pool.query(getTaskbyId(id));
         const todos = result.rows;
@@ -40,8 +41,10 @@ router.get("/todos/:id", (req, res) => __awaiter(void 0, void 0, void 0, functio
 // --- POST Request to retreive the data from req.body and save it to the database
 router.post("/todos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, completed } = req.body;
+    const id = uuidv4();
     try {
-        yield pool.query(addTasks, [title, completed]);
+        //create validation for the data type and the number of the characthers
+        yield pool.query(addTasks, [id, title, completed]);
         res.redirect('/todos');
         // res.status(201).send("Task created successfully!");
     }
@@ -52,7 +55,7 @@ router.post("/todos", (req, res) => __awaiter(void 0, void 0, void 0, function* 
 }));
 // --- Delete Request to delete particular task from the database
 router.delete("/todos/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = parseInt(req.params.id);
+    const id = req.params['id'];
     try {
         // first, checking wether the task exist in the database
         const result = yield pool.query(getTaskbyId(id));
@@ -70,7 +73,7 @@ router.delete("/todos/:id", (req, res) => __awaiter(void 0, void 0, void 0, func
 // --- Put Request to Update a particular task
 // --- Still considering whether this feature to update a particular task is necessary
 router.put("/todos/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = parseInt(req.params.id);
+    const id = req.params['id'];
     const { title } = req.body;
     try {
         // first, checking wether the task exist in the database
@@ -101,10 +104,9 @@ router.delete("/todos", (req, res) => __awaiter(void 0, void 0, void 0, function
 // --- Post request to insert a particular task from the tasks table to completed_tasks table
 // --- And the task will also be deleted from tasks table
 router.post("/todos/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = parseInt(req.params.id);
+    const id = req.params['id'];
     try {
-        yield pool.query(completedTask(id));
-        yield pool.query(deleteTask(id));
+        yield pool.query(updateCompleted(id));
         res.redirect('/todos');
     }
     catch (error) {

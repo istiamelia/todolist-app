@@ -14,7 +14,7 @@
   },
   "include": [
     "src",
-    "config/db.ts"
+    "src/config/db.ts"
   ],
   "exclude": [
     "node_modules",

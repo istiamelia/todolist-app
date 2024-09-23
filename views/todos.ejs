@@ -2,15 +2,24 @@
     <!-- defining the for of outside of ul element will create duplicates with the same id (which is against the HTML formatting standard) -->
     <% for (let todo of todos){ %>
         <li>
-            <label>
-                <form action="/todos/<%= todo.id %>" method="post" id="completedForm_<%= todo.id %>"><input
-                        type="checkbox" onchange="document.getElementById('completedForm_<%= todo.id %>').submit()"
-                        name="completedCheck">
-                </form>
-                <%= todo.title %>
-                    <form action="/todos/<%= todo.id %>?_method=DELETE" method="post"><button id="delete"></button>
-                    </form>
-            </label>
+            <div id="li-container"
+                class="bg-gray-container drop-shadow-sm w-60 h-20 mx-3 my-3 rounded-md flex flex-col">
+                <div id="task-section1" class="my-3"></div>
+                <div id="task-section2" class="my-3">
+                    <label class="text-sm text-gray-main flex flex-row">
+                        <form class="" action="/todos/<%= todo.id %>" method="post" id="completedForm_<%= todo.id %>">
+                            <input class="" type="checkbox"
+                                onchange="document.getElementById('completedForm_<%= todo.id %>').submit()"
+                                name="completedCheck">
+                        </form>
+                        <%= todo.title %>
+                            <form action="/todos/<%= todo.id %>?_method=DELETE" method="post"><button
+                                    id="delete">Delete</button>
+                            </form>
+                    </label>
+                </div>
+                <div id="task-section1" class="my-3"></div>
+            </div>
         </li>
         <% } %>
 </ul>

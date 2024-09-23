@@ -1,8 +1,8 @@
 import { QueryConfig } from 'pg';
 type SqlQuery = string;
 
-export const getTasks: SqlQuery = "SELECT * FROM tasks WHERE completed = false AND deleted_at IS NULL";
-export const getCompletedTasks: SqlQuery = "SELECT * FROM tasks WHERE completed = true AND deleted_at IS NULL";
+export const getTasks: SqlQuery = "SELECT * FROM tasks WHERE task_status != Completed AND deleted_at IS NULL";
+export const getCompletedTasks: SqlQuery = "SELECT * FROM tasks WHERE task_status = Completed AND deleted_at IS NULL";
 
 export const getTaskbyId: (id: string) => QueryConfig<any[]> = (id) => ({
     text: "SELECT * FROM tasks WHERE id = $1",
@@ -13,19 +13,19 @@ export const getTaskbyId: (id: string) => QueryConfig<any[]> = (id) => ({
 // $1 is the parameter that will enable us to pass variable into it
 
 
-export const addTasks: SqlQuery = "INSERT INTO tasks (id, title, completed) VALUES ($1, $2, $3)";
+export const addTasks: SqlQuery = "INSERT INTO tasks (id, task_name, task_status) VALUES ($1, $2, $3)";
 
 export const deleteTask: (id: string) => QueryConfig<any[]> = (id) => ({
     text: "UPDATE tasks SET deleted_at = NOW() WHERE id = $1",
     values: [id],
 });
 
-export const updateTask: (id: string, title: string) => QueryConfig<any[]> = (title, id) => ({
-    text: "UPDATE tasks SET title = $1 WHERE id = $2",
-    values: [title, id],
+export const updateTask: (id: string, task_name: string) => QueryConfig<any[]> = (task_name, id) => ({
+    text: "UPDATE tasks SET task_name = $1 WHERE id = $2",
+    values: [task_name, id],
 });
 
-export const deleteAllTasks: SqlQuery = "UPDATE tasks SET deleted_at = NOW() WHERE completed = false";
+export const deleteAllTasks: SqlQuery = "UPDATE tasks SET deleted_at = NOW()";
 
 // export const completedTask: (id: number) => QueryConfig<any[]> = (id) => ({
 //     text: "INSERT INTO completed_tasks (id, title) SELECT id, title FROM tasks WHERE id = $1",
@@ -34,6 +34,6 @@ export const deleteAllTasks: SqlQuery = "UPDATE tasks SET deleted_at = NOW() WHE
 
 
 export const updateCompleted: (id: string) => QueryConfig<any[]> = (id) => ({
-    text: "UPDATE tasks SET completed = true where id = $1",
+    text: "UPDATE tasks SET task_status = Completed where id = $1",
     values: [id],
 });

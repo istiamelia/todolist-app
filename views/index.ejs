@@ -4,32 +4,106 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Todo App</title>
-  <link rel="stylesheet" type="text/css" href="/css/style.css">
+  <title>Ordino - Tasks Management App</title>
+  <!-- <link rel="stylesheet" type="text/css" href="/css/style.css"> -->
+  <link rel="stylesheet" type="text/css" href="/css/output.css">
   <script src="/index.js"></script>
 </head>
 
-<body>
-  <div id="root">
-    <h1>To-do List</h1>
-    <div id="task-form">
-      <form action="/todos" id="task-form" method="post">
-        <input type="text" id="new-task-title" placeholder="add a task.." name="title">
-        <input type="hidden" name="completed" value="false">
-        <button type="submit" id="submitBtn">Add</button>
-      </form>
-      <form action="/todos?_method=DELETE" method="post">
-        <button type="submit" id="deleteAllBtn">Delete All</button>
-      </form>
-      <button id="completedBtn" onclick="isComplete()">Completed Task</button>
+<body class="h-[100vh] grid grid-cols-[250px,1fr] grid-rows-[60px,1fr] font-sans">
+  <header id="header"
+    class="col-start-2 col-end-3 row-start-1 row-end-2 flex flex-row justify-between px-6 py-3 place-items-center">
+    <div id="search-container"
+      class="px-3 flex flex-row justify-between rounded-full shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2">
+      <input type="text"
+        class="w-[300px] block flex-1 border-0 bg-transparent text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sn: leading-6"
+        placeholder="Search Task or Project">
+      <button type="submit" id="search-btn">
+        <svg class="fill-gray-icon hover:fill-gray-main" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+          viewBox="0 0 16 16">
+          <path fill=""
+            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0a5.5 5.5 0 0 1 11 0" />
+        </svg>
+      </button>
     </div>
-    <div id="completed"></div>
-    <%-partial('todos', todos)%>
-
-  </div>
-
-
-
+    <div>
+      <h3 class="font-body text-2xl font-semibold text-purple-800">Ordino</h3>
+    </div>
+  </header>
+  <section id="sidebar"
+    class="bg-white col-start-1 col-end-2 row-start-1 row-end-3 border-r-[0.5px] border-gray-200 px-3 py-5">
+    <div id="profile" class="flex flex-row justify-around px-5 mb-10">
+      <img class="h-[50px] w-[50px] object-cover rounded-full list-image-profile"
+        src="https://images.unsplash.com/photo-1590895340509-793cb98788c9?q=80&w=2077&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        alt="">
+      <a class="m-auto text-gray-700 font-semibold" href="">Rifan Adriansyah</a>
+    </div>
+    <div class="flex flex-col gap-3 h-[250px] justify-between py-3 px-3" id="navigation">
+    </div>
+  </section>
+  <main id="main" class="bg-white col-start-2 col-end-2 row-start-2 row-end-2 px-6 py-10">
+    <h1 class=" text-gray-700 font-semibold mb-5">Hello, Rifan Adriansyah!</h1>
+    <div id="task-category" class="mb-5">
+      <button id="completedBt"
+        class="mx-1 text-xs text-purple2 drop-shadow-sm px-3 py-1 w-auto focus:ring focus:ring-violet-300  bg-faded-gray active:bg-purple3 hover:bg-purple3 rounded-full"
+        onclick="">Tasks</button>
+      <button id="completedBtn"
+        class="mx-1 text-xs text-purple2 drop-shadow-sm px-3 py-1 w-auto focus:ring focus:ring-violet-300  bg-faded-gray active:bg-purple3 hover:bg-purple3 rounded-full"
+        onclick="">Upcoming</button>
+      <button id="completedBtn"
+        class="mx-1 text-xs text-purple2 drop-shadow-sm px-3 py-1 w-auto focus:ring focus:ring-violet-300  bg-faded-gray active:bg-purple3 hover:bg-purple3 rounded-full"
+        onclick="isComplete()">Completed</button>
+    </div>
+    <div id="task-execute" class="flex flex-row justify-end">
+      <form class="mx-1" action="" method="post">
+        <button type="submit"
+          class="text-xs text-purple2 drop-shadow-sm px-3 py-1 w-auto ring-1 ring-purple2 focus:ring focus:ring-purple2  bg-transparent active:bg-purple2 hover:bg-purple2 active:text-white hover:text-white rounded-full flex flex-row place-items-center"
+          id="add-task">
+          <svg class="font-semibold fill-current active:text-white hover:text-white" xmlns="http://www.w3.org/2000/svg"
+            width="1em" height="1em" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M11.5 12.5H6v-1h5.5V6h1v5.5H18v1h-5.5V18h-1z" />
+          </svg>
+          New Task
+        </button>
+      </form>
+      <form class="mx-1" action="" method="post">
+        <button type="submit"
+          class="text-xs text-purple2 drop-shadow-sm px-3 py-1 w-auto ring-1 ring-purple2 focus:ring focus:ring-purple2  bg-transparent active:bg-purple2 hover:bg-purple2 active:text-white hover:text-white rounded-full flex flex-row place-items-center"
+          id="add-task">
+          <svg class="font-semibold fill-current active:text-white hover:text-white" xmlns="http://www.w3.org/2000/svg"
+            width="1em" height="1em" viewBox="0 0 32 32">
+            <path fill="currentColor"
+              d="m3.594 12l1.687 1.72l10 10l.72.686l.72-.687l10-10L28.405 12zm4.844 2h15.124L16 21.563L8.437 14z" />
+          </svg>
+          Sort by
+        </button>
+      </form>
+      <form class="mx-1" action="/todos?_method=DELETE" method="post">
+        <button type="submit"
+          class="text-xs text-delete drop-shadow-sm px-3 py-1 w-auto ring-1 ring-delete2 focus:ring focus:ring-delete  bg-transparent active:bg-delete hover:bg-delete active:text-white hover:text-white rounded-full flex flex-row place-items-center"
+          id="deleteAllBtn">
+          <svg class="font-semibold fill-current active:text-white hover:text-white" xmlns="http://www.w3.org/2000/svg"
+            width="1em" height="1em" viewBox="0 0 24 24">
+            <path fill=""
+              d="M7.616 20q-.672 0-1.144-.472T6 18.385V6H5V5h4v-.77h6V5h4v1h-1v12.385q0 .69-.462 1.153T16.384 20zM17 6H7v12.385q0 .269.173.442t.443.173h8.769q.23 0 .423-.192t.192-.424zM9.808 17h1V8h-1zm3.384 0h1V8h-1zM7 6v13z" />
+          </svg>
+          Delete All
+        </button>
+      </form>
+    </div>
+    </div>
+    <div id="root" class="py-16">
+      <div id="task-form">
+        <!-- <form action="/todos" id="task-form" method="post">
+          <input type="text" id="new-task-title" placeholder="add a task.." name="title">
+          <input type="hidden" name="completed" value="false">
+          <button type="submit" id="submitBtn">Add</button>
+        </form> -->
+      </div>
+      <div id="completed"></div>
+      <%-partial('todos', todos)%>
+    </div>
+  </main>
 </body>
 
 </html>
