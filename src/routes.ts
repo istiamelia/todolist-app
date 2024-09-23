@@ -44,11 +44,11 @@ router.get("/todos/:id", async (req: Request, res: Response) => {
 
 // --- POST Request to retreive the data from req.body and save it to the database
 router.post("/todos", async (req: Request, res: Response) => {
-    const { title, completed } = req.body
+    const { task_name, task_status } = req.body
     const id = uuidv4()
     try {
         //create validation for the data type and the number of the characthers
-        await pool.query(addTasks, [id, title, completed]);
+        await pool.query(addTasks, [id, task_name, task_status]);
         res.redirect('/todos')
         // res.status(201).send("Task created successfully!");
     } catch (error) {
@@ -78,14 +78,14 @@ router.delete("/todos/:id", async (req: Request, res: Response) => {
 // --- Still considering whether this feature to update a particular task is necessary
 router.put("/todos/:id", async (req: Request, res: Response) => {
     const id = req.params['id']
-    const { title } = req.body;
+    const { task_name } = req.body;
     try {
         // first, checking wether the task exist in the database
         const result: QueryResult = await pool.query(getTaskbyId(id));
         if (!result.rows.length) {
             res.send("Task does not exist in the database");
         };
-        await pool.query(updateTask(title, id.toString()));
+        await pool.query(updateTask(task_name, id.toString()));
         res.status(200).send("Task updated successfully!");
     } catch (error) {
         console.error("Error updating todos", error);
@@ -105,8 +105,7 @@ router.delete("/todos", async (req: Request, res: Response) => {
 });
 
 
-// --- Post request to insert a particular task from the tasks table to completed_tasks table
-// --- And the task will also be deleted from tasks table
+// --- Post request to update task_status into completed
 router.post("/todos/:id", async (req: Request, res: Response) => {
     const id = req.params['id']
     try {
