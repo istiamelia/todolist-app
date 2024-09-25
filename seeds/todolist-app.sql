@@ -1,7 +1,7 @@
 CREATE TYPE task_status AS ENUM('In Progress','In Review','Stuck','Completed');
 CREATE TYPE task_priority AS ENUM('Could Have', 'Must Have', 'Nice to Have', 'Should Have', 'Not Important');
 CREATE TABLE tasks (
-    id UUID NOT NULL,
+    id UUID NOT NULL PRIMARY KEY,
     task_name VARCHAR(255),
     task_description VARCHAR(300),
     task_asignee VARCHAR(255),
@@ -11,5 +11,14 @@ CREATE TABLE tasks (
     due_date TIMESTAMP,
     deleted_at TIMESTAMP NULL,
     created_at TIMESTAMP DEFAULT NOW() NOT NULL,
-    updated_at TIMESTAMP DEFAULT NOW() NOT NULL
+    updated_at TIMESTAMP DEFAULT NOW() NOT NULL,
+    project_id INT REFERENCES projects(project_id) ON DELETE CASCADE
 )
+CREATE TABLE projects (
+    project_id SERIAL PRIMARY KEY,
+    project_name VARCHAR(255) NOT NULL,
+    project_description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
