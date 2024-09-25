@@ -1,7 +1,7 @@
 CREATE TYPE task_status AS ENUM('In Progress','In Review','Stuck','Completed');
 CREATE TYPE task_priority AS ENUM('Could Have', 'Must Have', 'Nice to Have', 'Should Have', 'Not Important');
 CREATE TABLE tasks (
-    id UUID NOT NULL PRIMARY KEY,
+    task_id UUID NOT NULL PRIMARY KEY,
     task_name VARCHAR(255),
     task_description VARCHAR(300),
     task_asignee VARCHAR(255),
@@ -21,4 +21,9 @@ CREATE TABLE projects (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+INSERT INTO projects (project_id, project_name, project_description) 
+VALUES (1, 'Sep 2024 Monthly Closing', 'Finance Monthly Closing to be finish on time');
+
+INSERT INTO tasks (task_id, task_name, task_description, task_asignee, task_priority, start_date, due_date, project_id)
+VALUES ('3ac2bf42-151a-4fba-9b84-5038c98694f5', 'Create Working Paper Payroll', 'Create Working Paper Payroll after receiving from JV', 'Isti Amelia Isnaeni', 'Should Have', '2024-09-27', '2024-09-30', 1);
 
