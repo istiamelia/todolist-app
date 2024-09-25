@@ -7,13 +7,14 @@
                 <div id="task-section1" class="my-3"></div>
                 <div id="task-section2" class="my-3">
                     <label class="text-sm text-gray-main flex flex-row">
-                        <form class="" action="/todos/<%= todo.id %>" method="post" id="completedForm_<%= todo.id %>">
+                        <form class="" action="/todos/<%= todo.task_id %>" method="post"
+                            task_id="completedForm_<%= todo.task_id %>">
                             <input class="" type="checkbox"
-                                onchange="document.getElementById('completedForm_<%= todo.id %>').submit()"
+                                onchange="document.getElementById('completedForm_<%= todo.task_id %>').submit()"
                                 name="completedCheck">
                         </form>
                         <%= todo.task_name %>
-                            <form action="/todos/<%= todo.id %>?_method=DELETE" method="post"><button
+                            <form action="/todos/<%= todo.task_id %>?_method=DELETE" method="post"><button
                                     id="delete">Delete</button>
                             </form>
                     </label>

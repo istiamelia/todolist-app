@@ -1,12 +1,12 @@
 import { QueryConfig } from 'pg';
 type SqlQuery = string;
 
-export const getTasks: SqlQuery = "SELECT * FROM tasks WHERE task_status != 'Completed' AND deleted_at IS NULL";
+export const getTasks: SqlQuery = "SELECT tasks.task_id, tasks.task_name, tasks.task_description, tasks.task_asignee, tasks.task_status, tasks.task_priority, tasks.start_date, tasks.due_date, tasks.created_at, tasks.updated_at, projects.project_name, projects.project_description FROM tasks JOIN projects ON tasks.project_id = projects.project_id WHERE task_status != 'Completed'";
 export const getCompletedTasks: SqlQuery = "SELECT * FROM tasks WHERE task_status = 'Completed' AND deleted_at IS NULL";
 
-export const getTaskbyId: (id: string) => QueryConfig<any[]> = (id) => ({
-    text: "SELECT * FROM tasks WHERE id = $1",
-    values: [id],
+export const getTaskbyId: (task_id: string) => QueryConfig<any[]> = (task_id) => ({
+    text: "SELECT tasks.task_id, tasks.task_name, tasks.task_description, tasks.task_asignee, tasks.task_status, tasks.task_priority, tasks.start_date, tasks.due_date, tasks.created_at, tasks.updated_at, projects.project_name, projects.project_description FROM tasks JOIN projects ON tasks.project_id = projects.project_id WHERE task_id = $1",
+    values: [task_id],
 });
 
 // pool.query in routes.ts expects an object with a text property  (the SQL query string) and a values property (an array of parameter values). so we adjust our function with 'Queryconfig' object
@@ -15,14 +15,14 @@ export const getTaskbyId: (id: string) => QueryConfig<any[]> = (id) => ({
 
 export const addTasks: SqlQuery = "INSERT INTO tasks (id, task_name, task_status) VALUES ($1, $2, $3)";
 
-export const deleteTask: (id: string) => QueryConfig<any[]> = (id) => ({
-    text: "UPDATE tasks SET deleted_at = NOW() WHERE id = $1",
-    values: [id],
+export const deleteTask: (task_id: string) => QueryConfig<any[]> = (task_id) => ({
+    text: "UPDATE tasks SET deleted_at = NOW() WHERE task_id = $1",
+    values: [task_id],
 });
 
-export const updateTask: (id: string, task_name: string) => QueryConfig<any[]> = (task_name, id) => ({
-    text: "UPDATE tasks SET task_name = $1 WHERE id = $2",
-    values: [task_name, id],
+export const updateTask: (task_id: string, task_name: string) => QueryConfig<any[]> = (task_name, task_id) => ({
+    text: "UPDATE tasks SET task_name = $1 WHERE task_id = $2",
+    values: [task_name, task_id],
 });
 
 export const deleteAllTasks: SqlQuery = "UPDATE tasks SET deleted_at = NOW()";
@@ -33,7 +33,7 @@ export const deleteAllTasks: SqlQuery = "UPDATE tasks SET deleted_at = NOW()";
 // });
 
 
-export const updateCompleted: (id: string) => QueryConfig<any[]> = (id) => ({
-    text: "UPDATE tasks SET task_status = 'Completed' where id = $1",
-    values: [id],
+export const updateCompleted: (task_id: string) => QueryConfig<any[]> = (task_id) => ({
+    text: "UPDATE tasks SET task_status = 'Completed' where task_id = $1",
+    values: [task_id],
 });

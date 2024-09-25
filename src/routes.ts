@@ -8,8 +8,8 @@ const router = Router();
 export default router;
 
 // Define an interface name Todo to outline the structure of the to-do item
-interface Todo {
-    id: string;
+interface Task {
+    task_id: string;
     task_name: string;
     task_status: string;
 }
@@ -21,7 +21,7 @@ interface Todo {
 router.get("/todos", async (req: Request, res: Response) => {
     try {
         const result: QueryResult = await pool.query(getTasks);
-        const todos: Todo[] = result.rows;
+        const todos: Task[] = result.rows;
         res.render('index', { todos })
     } catch (error) {
         console.error("Error fetching todos", error);
@@ -30,11 +30,11 @@ router.get("/todos", async (req: Request, res: Response) => {
 });
 
 // --- Get Request to fetch all data from the database based on Id
-router.get("/todos/:id", async (req: Request, res: Response) => {
-    const id = req.params['id']
+router.get("/todos/:task_id", async (req: Request, res: Response) => {
+    const task_id = req.params['task_id']
     try {
-        const result: QueryResult = await pool.query(getTaskbyId(id));
-        const todos: Todo[] = result.rows;
+        const result: QueryResult = await pool.query(getTaskbyId(task_id));
+        const todos: Task[] = result.rows;
         res.json(todos);
     } catch (error) {
         console.error("Error fetching todos", error);
@@ -45,10 +45,10 @@ router.get("/todos/:id", async (req: Request, res: Response) => {
 // --- POST Request to retreive the data from req.body and save it to the database
 router.post("/todos", async (req: Request, res: Response) => {
     const { task_name, task_status } = req.body
-    const id = uuidv4()
+    const task_id = uuidv4()
     try {
         //create validation for the data type and the number of the characthers
-        await pool.query(addTasks, [id, task_name, task_status]);
+        await pool.query(addTasks, [task_id, task_name, task_status]);
         res.redirect('/todos')
         // res.status(201).send("Task created successfully!");
     } catch (error) {
@@ -58,15 +58,15 @@ router.post("/todos", async (req: Request, res: Response) => {
 });
 
 // --- Delete Request to delete particular task from the database
-router.delete("/todos/:id", async (req: Request, res: Response) => {
-    const id = req.params['id']
+router.delete("/todos/:task_id", async (req: Request, res: Response) => {
+    const task_id = req.params['task_id']
     try {
         // first, checking wether the task exist in the database
-        const result: QueryResult = await pool.query(getTaskbyId(id));
+        const result: QueryResult = await pool.query(getTaskbyId(task_id));
         if (!result.rows.length) {
             res.send("Task does not exist in the database")
         }
-        await pool.query(deleteTask(id))
+        await pool.query(deleteTask(task_id))
         res.redirect('/todos')
     } catch (error) {
         console.error("Error deleting todos", error);
@@ -76,16 +76,16 @@ router.delete("/todos/:id", async (req: Request, res: Response) => {
 
 // --- Put Request to Update a particular task
 // --- Still considering whether this feature to update a particular task is necessary
-router.put("/todos/:id", async (req: Request, res: Response) => {
-    const id = req.params['id']
+router.put("/todos/:task_id", async (req: Request, res: Response) => {
+    const task_id = req.params['task_id']
     const { task_name } = req.body;
     try {
         // first, checking wether the task exist in the database
-        const result: QueryResult = await pool.query(getTaskbyId(id));
+        const result: QueryResult = await pool.query(getTaskbyId(task_id));
         if (!result.rows.length) {
             res.send("Task does not exist in the database");
         };
-        await pool.query(updateTask(task_name, id.toString()));
+        await pool.query(updateTask(task_name, task_id.toString()));
         res.status(200).send("Task updated successfully!");
     } catch (error) {
         console.error("Error updating todos", error);
@@ -106,10 +106,10 @@ router.delete("/todos", async (req: Request, res: Response) => {
 
 
 // --- Post request to update task_status into completed
-router.post("/todos/:id", async (req: Request, res: Response) => {
-    const id = req.params['id']
+router.post("/todos/:task_id", async (req: Request, res: Response) => {
+    const task_id = req.params['task_id']
     try {
-        await pool.query(updateCompleted(id))
+        await pool.query(updateCompleted(task_id))
         res.redirect('/todos')
     } catch (error) {
         console.error("Error deleting todos", error);
@@ -124,7 +124,7 @@ router.post("/todos/:id", async (req: Request, res: Response) => {
 router.get('/path/to/completed', async (req: Request, res: Response) => {
     try {
         const resultCompleted: QueryResult = await pool.query(getCompletedTasks);
-        const completedTasks: Todo[] = resultCompleted.rows;
+        const completedTasks: Task[] = resultCompleted.rows;
         res.render('completed', { completedTasks })
     } catch (error) {
         console.error("Error fetching todos", error);
