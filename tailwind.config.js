@@ -24,6 +24,10 @@ export default {
       },
       fontFamily: {
         body: ['Nunito']
+      },
+      fontSize: {
+        'xxxs': '0.575rem',
+        'xxs': '0.675rem',
       }
     },
   },

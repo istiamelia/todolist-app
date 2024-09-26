@@ -1,26 +1,87 @@
-<ul id="list">
-    <!-- defining the for of outside of ul element will create duplicates with the same id (which is against the HTML formatting standard) -->
-    <% for (let todo of todos){ %>
-        <li>
-            <div id="li-container"
-                class="bg-gray-container drop-shadow-sm w-60 h-20 mx-3 my-3 rounded-md flex flex-col">
-                <div id="task-section1" class="my-3"></div>
-                <div id="task-section2" class="my-3">
-                    <label class="text-sm text-gray-main flex flex-row">
-                        <form class="" action="/todos/<%= todo.task_id %>" method="post"
-                            task_id="completedForm_<%= todo.task_id %>">
-                            <input class="" type="checkbox"
-                                onchange="document.getElementById('completedForm_<%= todo.task_id %>').submit()"
-                                name="completedCheck">
-                        </form>
-                        <%= todo.task_name %>
-                            <form action="/todos/<%= todo.task_id %>?_method=DELETE" method="post"><button
-                                    id="delete">Delete</button>
-                            </form>
-                    </label>
-                </div>
-                <div id="task-section1" class="my-3"></div>
-            </div>
-        </li>
-        <% } %>
-</ul>
+<!-- defining the for of outside of ul element will create duplicates with the same id (which is against the HTML formatting standard) -->
+<div class="flex flex-row gap-4">
+    <% let lastProjectName="" ; %> <!-- Initialize a variable to track the last project name -->
+        <% for (let task of tasks) { %>
+            <!-- Check if the current project name is different from the last one -->
+            <% if (task.project_name !==lastProjectName) { %>
+                <!-- Close the previous project container if it's not the first project -->
+                <% if (lastProjectName !=="" ) { %>
+                    </ul> <!-- Close the task list from the previous project -->
+</div> <!-- Close the project container -->
+<% } %>
+    <!-- Start a new project container -->
+    <div class="bg-gray-container py-3 px-2 rounded-md w-60 flex flex-col overflow-hidden h-[1%]">
+        <p class="text-xs text-gray-main">
+            <%= task.project_name %>
+        </p> <!-- Render the project name -->
+        <!-- Start a new task list for the current project -->
+        <ul>
+            <% lastProjectName=task.project_name; %> <!-- Update the last project name -->
+                <% } %>
+                    <!-- List the tasks under the current project -->
+                    <li>
+                        <div class="section1 bg-white my-2 rounded-md px-3 py-3 drop-shadow-sm">
+                            <div class="flex flex-row">
+                                <p class="task-priority text-xxxs w-auto h-auto focus:ring mx-1 rounded-md px-1">
+                                    <%= task.task_priority %>
+                                </p>
+                                <p class="task-status text-xxxs w-auto h-auto focus:ring mx-1 rounded-md px-1">
+                                    <%= task.task_status %>
+                                </p>
+                            </div>
+                            <div class="section2 flex flex-row justify-between">
+                                <label class="text-xxs text-gray-text flex flex-row mx-1 my-3">
+                                    <!-- <form class="" action="/todos/<%= task.task_id %>" method="post"
+                                task_id="completedForm_<%= task.task_id %>">
+                                <input class="" type="checkbox"
+                                    onchange="document.getElementById('completedForm_<%= task.task_id %>').submit()"
+                                    name="completedCheck">
+                            </form> -->
+                                    <%= task.task_name %>
+                                        <!-- <form action="/todos/<%= task.task_id %>?_method=DELETE" method="post">
+                                        <button id="delete">Delete</button>
+                                    </form> -->
+                                </label>
+                                <button class="task-expand">
+                                    <svg class="border border-gray-300 rounded-md w-auto h-auto hover:bg-gray-100 active:bg-gray-100"
+                                        xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                        viewBox="0 0 256 256">
+                                        <path fill="currentColor"
+                                            d="M144 128a16 16 0 1 1-16-16a16 16 0 0 1 16 16m-84-16a16 16 0 1 0 16 16a16 16 0 0 0-16-16m136 0a16 16 0 1 0 16 16a16 16 0 0 0-16-16" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="section3 flex flex-row justify-between">
+                                <span class="flex flex-row place-items-center">
+                                    <svg class="
+                                    <% if ( new Date(task.due_date) > new Date() ){%>
+                                        stroke-gray-main
+                                    <% } else {%>
+                                        stroke-red-700
+                                    <% }%>
+                                    " xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                                        <g fill="none" stroke="" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="1.05">
+                                            <path
+                                                d="M4 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm12-4v4M8 3v4m-4 4h16" />
+                                            <path d="M11 16a1 1 0 1 0 2 0a1 1 0 1 0-2 0" />
+                                        </g>
+                                    </svg>
+                                    <span class="text-xxxs mx-2
+                                    <% if ( new Date(task.due_date) > new Date() ){%>
+                                        text-gray-main
+                                    <% } else {%>
+                                        text-red-700
+                                    <% }%>">
+                                        <%= task.due_date.toLocaleDateString("en-US") %>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                    <% } %>
+                        <!-- Close the last project container and task list -->
+                        <% if (lastProjectName !=="" ) { %>
+        </ul> <!-- Close the task list from the previous project -->
+    </div> <!-- Close the project container -->
+    <% } %>

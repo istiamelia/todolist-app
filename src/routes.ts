@@ -11,18 +11,28 @@ export default router;
 interface Task {
     task_id: string;
     task_name: string;
+    task_description: string;
+    task_asignee: string;
     task_status: string;
+    task_priority: string;
+    start_date: Date;
+    due_date: Date;
+    deleted_date: Date;
+    created_date: Date;
+    updated_date: Date;
+    project_id: number;
+    project_name: string;
+    project_description: string;
+    created_at: Date;
 }
-
-
 
 
 // --- Get Request to fetch all data from the database
 router.get("/todos", async (req: Request, res: Response) => {
     try {
         const result: QueryResult = await pool.query(getTasks);
-        const todos: Task[] = result.rows;
-        res.render('index', { todos })
+        const tasks: Task[] = result.rows;
+        res.render('index', { tasks })
     } catch (error) {
         console.error("Error fetching todos", error);
         res.status(500).json({ error: "Error fetching todos" });

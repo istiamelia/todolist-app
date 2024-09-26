@@ -65,6 +65,48 @@ function navigationChild() {
         navigation === null || navigation === void 0 ? void 0 : navigation.append(newDiv);
     }
 }
+function taskDetail() {
+    const taskPriorities = document.querySelectorAll(".task-priority");
+    const taskStatuses = document.querySelectorAll(".task-status");
+    const taskStatusList = {
+        "In Progress": ["text-yellow-700", "bg-yellow-100"],
+        "In Review": ["text-blue-700", "bg-blue-100"],
+        "Stuck": ["text-red-700", "bg-red-100"],
+        "Completed": ["text-green-700", "bg-green-100"]
+    };
+    const taskPrioritiesList = {
+        "Must Have": ["text-red-700", "bg-red-100"],
+        "Should Have": ["text-orange-700", "bg-orange-100"],
+        "Nice to Have": ["text-yellow-700", "bg-yellow-100"],
+        "Could Have": ["text-blue-700", "bg-blue-100"],
+        "Not Important": ["text-gray-700", "bg-gray-100"]
+    };
+    taskPriorities.forEach(taskPriority => {
+        // Cast the Element as an HTMLElement since using QuerySelectorAll returns a list of generic Element that by default has innerText Property
+        const taskPriorityElement = taskPriority;
+        for (let key in taskPrioritiesList) {
+            if ((taskPriorityElement === null || taskPriorityElement === void 0 ? void 0 : taskPriorityElement.innerText) === key) {
+                // Add each class from the array to the element
+                taskPrioritiesList[key].forEach(className => {
+                    taskPriorityElement.classList.add(className);
+                });
+            }
+        }
+    });
+    taskStatuses.forEach(taskStatus => {
+        // Cast the Element as an HTMLElement since using QuerySelectorAll returns a list of generic Element that by default has innerText Property
+        const taskStatusElement = taskStatus;
+        for (let key in taskStatusList) {
+            if (taskStatusElement.innerText === key) {
+                // Add each class from the array to the element
+                taskStatusList[key].forEach(className => {
+                    taskStatusElement.classList.add(className);
+                });
+            }
+        }
+    });
+}
 document.addEventListener("DOMContentLoaded", () => {
     navigationChild();
+    taskDetail();
 });

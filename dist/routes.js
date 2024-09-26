@@ -17,8 +17,8 @@ export default router;
 router.get("/todos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield pool.query(getTasks);
-        const todos = result.rows;
-        res.render('index', { todos });
+        const tasks = result.rows;
+        res.render('index', { tasks });
     }
     catch (error) {
         console.error("Error fetching todos", error);
