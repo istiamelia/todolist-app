@@ -13,6 +13,7 @@ function isComplete() {
     isCompleteMode = !isCompleteMode;
     loadPartial();
 }
+// Function to load partial completed task on index.ejs
 function loadPartial() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -42,6 +43,7 @@ function loadPartial() {
         }
     });
 }
+// Functtion for customize the navigation menu
 function navigationChild() {
     const menuName = ["My Tasks", "Team Members", "Calendar", "Messages"];
     const menuIcon = {
@@ -65,6 +67,7 @@ function navigationChild() {
         navigation === null || navigation === void 0 ? void 0 : navigation.append(newDiv);
     }
 }
+// Function for customizing the color for task priorities and task status indicator
 function taskDetail() {
     const taskPriorities = document.querySelectorAll(".task-priority");
     const taskStatuses = document.querySelectorAll(".task-status");
@@ -106,7 +109,34 @@ function taskDetail() {
         }
     });
 }
+function openModalAddTask() {
+    const addTaskBtn = document.getElementById("addTaskBtn");
+    const closeAddTaskBtn = document.getElementById("closeAddTaskBtn");
+    const addTaskForm = document.getElementById("addTaskForm");
+    const addTaskFormElement = addTaskForm;
+    addTaskBtn === null || addTaskBtn === void 0 ? void 0 : addTaskBtn.addEventListener("click", () => {
+        addTaskFormElement.classList.remove("opacity-[0]", "hidden");
+        addTaskFormElement.classList.add("open", "opacity-[1]", "visible", "z-[999]");
+    });
+    closeAddTaskBtn === null || closeAddTaskBtn === void 0 ? void 0 : closeAddTaskBtn.addEventListener("click", () => {
+        addTaskFormElement.classList.remove("open", "opacity-[1]", "visible", "z-[999]");
+    });
+}
+function taskStatusAndPriorityStyles() {
+    const taskStatusLabel = document.querySelectorAll(".taskStatus");
+    const taskPriorityLabel = document.querySelectorAll(".taskPriority");
+    taskStatusLabel.forEach(taskStatusLabel => {
+        const taskStatusLabelElement = taskStatusLabel;
+        taskStatusLabel.className = "taskStatus peer-checked:bg-purple2 peer-checked:text-white mx-1 text-xs text-purple2 drop-shadow-sm px-3 py-1 w-auto focus:ring focus:ring-violet-300 bg-faded-gray hover:bg-purple3 rounded-full";
+    });
+    taskPriorityLabel.forEach(taskPriorityLabel => {
+        const taskPriorityLabelElement = taskPriorityLabel;
+        taskPriorityLabel.className = "taskStatus peer-checked:bg-purple2 peer-checked:text-white mx-1 text-xs text-purple2 drop-shadow-sm px-3 py-1 w-auto focus:ring focus:ring-violet-300 bg-faded-gray hover:bg-purple3 rounded-full";
+    });
+}
 document.addEventListener("DOMContentLoaded", () => {
     navigationChild();
     taskDetail();
+    openModalAddTask();
+    taskStatusAndPriorityStyles();
 });

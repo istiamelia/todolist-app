@@ -5,6 +5,7 @@ function isComplete() {
     loadPartial();
 }
 
+// Function to load partial completed task on index.ejs
 async function loadPartial() {
     try {
         // Fetch the content of the partial
@@ -36,6 +37,7 @@ async function loadPartial() {
     }
 }
 
+// Functtion for customize the navigation menu
 function navigationChild() {
     const menuName = ["My Tasks", "Team Members", "Calendar", "Messages"]
     const menuIcon: { [key: number]: string } = {
@@ -63,6 +65,7 @@ function navigationChild() {
     }
 }
 
+// Function for customizing the color for task priorities and task status indicator
 function taskDetail() {
     const taskPriorities = document.querySelectorAll(".task-priority")
     const taskStatuses = document.querySelectorAll(".task-status")
@@ -105,8 +108,39 @@ function taskDetail() {
     })
 }
 
+function openModalAddTask() {
+    const addTaskBtn = document.getElementById("addTaskBtn");
+    const closeAddTaskBtn = document.getElementById("closeAddTaskBtn");
+    const addTaskForm = document.getElementById("addTaskForm");
+
+    const addTaskFormElement = addTaskForm as HTMLElement;
+
+    addTaskBtn?.addEventListener("click", () => {
+        addTaskFormElement.classList.remove("opacity-[0]", "hidden");
+        addTaskFormElement.classList.add("open", "opacity-[1]", "visible", "z-[999]");
+    })
+    closeAddTaskBtn?.addEventListener("click", () => {
+        addTaskFormElement.classList.remove("open", "opacity-[1]", "visible", "z-[999]");
+    })
+}
+
+function taskStatusAndPriorityStyles() {
+    const taskStatusLabel = document.querySelectorAll(".taskStatus");
+    const taskPriorityLabel = document.querySelectorAll(".taskPriority");
+    taskStatusLabel.forEach(taskStatusLabel => {
+        const taskStatusLabelElement = taskStatusLabel as HTMLElement;
+        taskStatusLabel.className = "taskStatus peer-checked:bg-purple2 peer-checked:text-white mx-1 text-xs text-purple2 drop-shadow-sm px-3 py-1 w-auto focus:ring focus:ring-violet-300 bg-faded-gray hover:bg-purple3 rounded-full";
+    })
+    taskPriorityLabel.forEach(taskPriorityLabel => {
+        const taskPriorityLabelElement = taskPriorityLabel as HTMLElement;
+        taskPriorityLabel.className = "taskStatus peer-checked:bg-purple2 peer-checked:text-white mx-1 text-xs text-purple2 drop-shadow-sm px-3 py-1 w-auto focus:ring focus:ring-violet-300 bg-faded-gray hover:bg-purple3 rounded-full";
+    })
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     navigationChild();
     taskDetail();
+    openModalAddTask();
+    taskStatusAndPriorityStyles();
 });
 

@@ -10,9 +10,25 @@
   <script src="/index.js"></script>
 </head>
 
+<style>
+  /* #addTaskForm.open {
+    opacity: 1;
+    z-index: 999;
+    visibility: visible;
+  }
+
+  #addTaskForm {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+  } */
+</style>
+
 <body class="h-[100vh] grid grid-cols-[250px,1fr] grid-rows-[60px,1fr] font-sans">
+  <!-- Header Element for Search Engine -->
   <header id="header"
     class="col-start-2 col-end-3 row-start-1 row-end-2 flex flex-row justify-between px-6 py-3 place-items-center">
+    <!-- Container for Search Engine -->
     <div id="search-container"
       class="px-3 flex flex-row justify-between rounded-full shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2">
       <input type="text"
@@ -26,10 +42,12 @@
         </svg>
       </button>
     </div>
+    <!-- App Logo -->
     <div>
       <h3 class="font-body text-2xl font-semibold text-purple-800">Ordino</h3>
     </div>
   </header>
+  <!-- Section element for navigation -->
   <section id="sidebar"
     class="bg-white col-start-1 col-end-2 row-start-1 row-end-3 border-r-[0.5px] border-gray-200 px-3 py-5">
     <div id="profile" class="flex flex-row justify-around px-5 mb-10">
@@ -38,16 +56,19 @@
         alt="">
       <a class="m-auto text-gray-700 font-semibold" href="">Rifan Adriansyah</a>
     </div>
+    <!-- Navigation menu -->
     <div class="flex flex-col gap-3 h-[250px] justify-between py-3 px-3" id="navigation">
     </div>
   </section>
+  <!-- Main Element for Content -->
   <main id="main" class="bg-white col-start-2 col-end-2 row-start-2 row-end-2 px-6 py-10">
     <h1 class=" text-gray-700 font-semibold mb-5">Hello, Rifan Adriansyah!</h1>
     <div id="task-category" class="mb-2">
-      <button id="completedBt"
+      <!-- Buttons for filter tasks based on status -->
+      <button id="allTaskBtn"
         class="mx-1 text-xs text-purple2 drop-shadow-sm px-3 py-1 w-auto focus:ring focus:ring-violet-300  bg-faded-gray active:bg-purple3 hover:bg-purple3 rounded-full"
         onclick="">Tasks</button>
-      <button id="completedBtn"
+      <button id="UpcomingTaskBtn"
         class="mx-1 text-xs text-purple2 drop-shadow-sm px-3 py-1 w-auto focus:ring focus:ring-violet-300  bg-faded-gray active:bg-purple3 hover:bg-purple3 rounded-full"
         onclick="">Upcoming</button>
       <button id="completedBtn"
@@ -55,21 +76,21 @@
         onclick="isComplete()">Completed</button>
     </div>
     <div id="task-execute" class="flex flex-row justify-end">
+      <!-- Button Element to toggle the Popup Add Task Form -->
+      <button type=""
+        class="mx-1 text-xs text-purple2 drop-shadow-sm px-3 py-1 w-auto ring-1 ring-purple2 focus:ring focus:ring-purple2  bg-transparent active:bg-purple2 hover:bg-purple2 active:text-white hover:text-white rounded-full flex flex-row place-items-center"
+        id="addTaskBtn">
+        <svg class="font-semibold fill-current active:text-white hover:text-white" xmlns="http://www.w3.org/2000/svg"
+          width="1em" height="1em" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M11.5 12.5H6v-1h5.5V6h1v5.5H18v1h-5.5V18h-1z" />
+        </svg>
+        New Task
+      </button>
+
       <form class="mx-1" action="" method="post">
         <button type="submit"
           class="text-xs text-purple2 drop-shadow-sm px-3 py-1 w-auto ring-1 ring-purple2 focus:ring focus:ring-purple2  bg-transparent active:bg-purple2 hover:bg-purple2 active:text-white hover:text-white rounded-full flex flex-row place-items-center"
-          id="add-task">
-          <svg class="font-semibold fill-current active:text-white hover:text-white" xmlns="http://www.w3.org/2000/svg"
-            width="1em" height="1em" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M11.5 12.5H6v-1h5.5V6h1v5.5H18v1h-5.5V18h-1z" />
-          </svg>
-          New Task
-        </button>
-      </form>
-      <form class="mx-1" action="" method="post">
-        <button type="submit"
-          class="text-xs text-purple2 drop-shadow-sm px-3 py-1 w-auto ring-1 ring-purple2 focus:ring focus:ring-purple2  bg-transparent active:bg-purple2 hover:bg-purple2 active:text-white hover:text-white rounded-full flex flex-row place-items-center"
-          id="add-task">
+          id="sortTasks">
           <svg class="font-semibold fill-current active:text-white hover:text-white" xmlns="http://www.w3.org/2000/svg"
             width="1em" height="1em" viewBox="0 0 32 32">
             <path fill="currentColor"
@@ -78,6 +99,7 @@
           Sort by
         </button>
       </form>
+
       <form class="mx-1" action="/todos?_method=DELETE" method="post">
         <button type="submit"
           class="text-xs text-delete drop-shadow-sm px-3 py-1 w-auto ring-1 ring-delete2 focus:ring focus:ring-delete  bg-transparent active:bg-delete hover:bg-delete active:text-white hover:text-white rounded-full flex flex-row place-items-center"
@@ -92,12 +114,145 @@
       </form>
     </div>
     <hr class="my-3 -mx-6 border-t-[0.5px] border-gray-200">
-    <div id="task-form">
-      <!-- <form action="/todos" id="task-form" method="post">
+    <div id="addTaskForm"
+      class="addTaskForm hidden opacity-0 bg-gray-500 bg-opacity-75 top-0 left-0 right-0 bottom-0 -z-[1] fixed">
+      <div class="flex justify-center items-center text-center min-h-full">
+        <div class="add-task-inner bg-white w-1/2 px-5 py-5 flex justify-items-start-start flex-col gap-x-1 rounded-xl">
+          <!-- TASK NAME -->
+          <section id="taskNameSection" class="flex flex-row items-center mb-5">
+            <label for="task-name">
+              <svg class="stroke-gray-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                viewBox="0 0 14 14">
+                <g fill="none" stroke="" stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M11.719 12.5a1 1 0 0 1-1 1h-9a1 1 0 0 1-1-1v-11a1 1 0 0 1 1-1h5.586a1 1 0 0 1 .707.293l3.414 3.414a1 1 0 0 1 .293.707zM6.777 6.375h2.5m-2.5 3.469h2.5" />
+                  <path d="m2.91 9.787l.838.838L5.145 8.67M2.91 6.256l.838.838l1.397-1.955" />
+                </g>
+              </svg>
+            </label>
+            <input type="text" name="task-name" id="task-name"
+              class="mx-3 w-1/2 text-xs rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          </section>
+          <!-- TASK DESCRIPTION -->
+          <section id="taskDescriptionSection" class="flex flex-col justify-start mb-5">
+            <label for="task-description" class="flex flex-row items-start mb-3">
+              <svg class="fill-gray-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                viewBox="0 0 32 32">
+                <path fill=""
+                  d="M3 6a1 1 0 0 0 0 2h26a1 1 0 1 0 0-2zm0 6a1 1 0 1 0 0 2h26a1 1 0 1 0 0-2zm-1 7a1 1 0 0 0 1 1h26a1 1 0 1 0 0-2H3a1 1 0 0 0-1 1m1 5a1 1 0 1 0 0 2h17a1 1 0 1 0 0-2z" />
+              </svg>
+              <span class="mx-3 text-xs text-gray-main">
+                Description
+              </span>
+            </label>
+            <textarea name="task-description" id="task-description"
+              class="mx-7 w-1/2 text-xs rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              </textarea>
+
+          </section>
+          <!-- TASK ASIGNEE -->
+          <section id="taskAsigneeSection" class="flex flex-row items-center mb-5">
+            <label for="task-asignee">
+              <svg class="fill-gray-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                viewBox="0 0 24 24">
+                <path fill=""
+                  d="M5.5 7a3 3 0 1 1 6 0a3 3 0 0 1-6 0m3-5a5 5 0 1 0 0 10a5 5 0 0 0 0-10m7 0h-1v2h1a3 3 0 1 1 0 6h-1v2h1a5 5 0 0 0 0-10M0 19a5 5 0 0 1 5-5h7a5 5 0 0 1 5 5v2h-2v-2a3 3 0 0 0-3-3H5a3 3 0 0 0-3 3v2H0zm24 0a5 5 0 0 0-5-5h-1v2h1a3 3 0 0 1 3 3v2h2z" />
+              </svg>
+            </label>
+            <select name="task-asignee" id="task-asignee"
+              class="mx-3 w-auto text-xs rounded-md border-0 text-gray-text ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              <option value="Isti Amelia Isnaeni">Isti Amelia Isnaeni</option>
+            </select>
+          </section>
+          <!-- TASK STATUS -->
+          <section id="taskStatusSection" class="flex flex-row items-center mb-5">
+            <label for="task-status">
+              <svg class=" fill-gray-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                viewBox="0 0 20 20">
+                <path fill=""
+                  d="M17.354 2.647a2.62 2.62 0 0 0-3.707 0l-5.5 5.5a.5.5 0 0 0-.132.232l-1 4a.5.5 0 0 0 .606.606l4-1a.5.5 0 0 0 .233-.131l5.5-5.5a2.62 2.62 0 0 0 0-3.707m-3 .707a1.621 1.621 0 0 1 2.293 2.293l-5.403 5.402l-3.057.764l.764-3.057zM10 4q.42.001.823.056l.854-.854a7 7 0 1 0 5.121 5.121l-.854.854Q16 9.582 16 10a6 6 0 1 1-6-6" />
+              </svg>
+            </label>
+            <section id="taskStatusBtn" class="mx-3">
+              <div class="inline-block">
+                <input type="radio" name="task-status" id="taskStatus1" value="In Progress" class="hidden peer" checked>
+                <label for="taskStatus1" class="taskStatus">In
+                  Progress</label>
+              </div>
+              <div class="inline-block">
+                <input type="radio" name="task-status" id="taskStatus2" value="In Review" class="hidden peer">
+                <label for="taskStatus2" class="taskStatus">In
+                  Review
+                </label>
+              </div>
+              <div class="inline-block">
+                <input type="radio" name="task-status" id="taskStatus3" value="Stuck" class="hidden peer">
+                <label for="taskStatus3" class="taskStatus">
+                  Stuck
+                </label>
+              </div>
+              <div class="inline-block">
+                <input type="radio" name="task-status" id="taskStatus4" value="Completed" class="hidden peer">
+                <label for="taskStatus4" class="taskStatus">
+                  Completed
+                </label>
+              </div>
+            </section>
+          </section>
+          <!-- TASK PRIORITY -->
+          <section id="taskPrioritySection" class="flex flex-row items-center mb-5">
+            <label for="task-priority">
+              <svg class="fill-gray-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                viewBox="0 0 24 24">
+                <path
+                  d="M4 11.744q0 1.968 1.332 3.339t3.28 1.406h1.134l-1.742-1.762l.708-.708L11.673 17l-2.962 3l-.707-.708L9.758 17.5H8.623q-2.356-.034-3.99-1.708Q3 14.12 3 11.75q0-2.398 1.657-4.074T8.692 6h3v1h-3Q6.74 7 5.37 8.377T4 11.744M14.077 17.5v-1H21v1zm0-5.25v-1H21v1zm0-5.25V6H21v1z" />
+              </svg>
+            </label>
+            <section id="taskPriorityBtn" class="mx-3">
+              <div class="inline-block">
+                <input type="radio" name="task-priority" id="taskPriority1" value="Could Have" class="hidden peer">
+                <label for="taskPriority1" class="taskPriority">
+                  Could Have</label>
+              </div>
+              <div class="inline-block">
+                <input type="radio" name="task-priority" id="taskPriority2" value="Must Have" class="hidden peer">
+                <label for="taskPriority2" class="taskPriority">
+                  Must Have
+                </label>
+              </div>
+              <div class="inline-block">
+                <input type="radio" name="task-priority" id="taskPriority3" value="Nice to Have" class="hidden peer">
+                <label for="taskPriority3" class="taskPriority">
+                  Nice to Have
+                </label>
+              </div>
+              <div class="inline-block">
+                <input type="radio" name="task-priority" id="taskPriority4" value="Should Have" class="hidden peer">
+                <label for="taskPriority4" class="taskPriority">
+                  Should Have
+                </label>
+              </div>
+              <div class="inline-block">
+                <input type="radio" name="task-priority" id="taskPriority5" value="Not Important" class="hidden peer">
+                <label for="taskPriority5" class="taskPriority">
+                  Not Important
+                </label>
+              </div>
+            </section>
+          </section>
+          <section>
+            <button id="closeAddTaskBtn"
+              class="text-xs text-delete drop-shadow-sm px-3 py-1 w-auto ring-1 ring-delete2 focus:ring focus:ring-delete  bg-transparent active:bg-delete hover:bg-delete active:text-white hover:text-white rounded-full">
+              Close
+            </button>
+          </section>
+        </div>
+        <!-- <form action="/todos" id="task-form" method="post">
           <input type="text" id="new-task-title" placeholder="add a task.." name="title">
           <input type="hidden" name="completed" value="false">
           <button type="submit" id="submitBtn">Add</button>
         </form> -->
+      </div>
     </div>
     <div id="completed"></div>
     <%-partial('todos', tasks)%>
