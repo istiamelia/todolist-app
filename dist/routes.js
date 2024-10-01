@@ -40,13 +40,12 @@ router.get("/todos/:task_id", (req, res) => __awaiter(void 0, void 0, void 0, fu
 }));
 // --- POST Request to retreive the data from req.body and save it to the database
 router.post("/todos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { task_name, task_status } = req.body;
+    const { task_name, task_description, task_asignee, task_status, task_priority, project_id, start_date, due_date } = req.body;
     const task_id = uuidv4();
     try {
         //create validation for the data type and the number of the characthers
-        yield pool.query(addTasks, [task_id, task_name, task_status]);
+        yield pool.query(addTasks, [task_id, task_name, task_description, task_asignee, task_status, task_priority, project_id, start_date, due_date]);
         res.redirect('/todos');
-        // res.status(201).send("Task created successfully!");
     }
     catch (error) {
         console.error("Error saving todos", error);

@@ -54,13 +54,12 @@ router.get("/todos/:task_id", async (req: Request, res: Response) => {
 
 // --- POST Request to retreive the data from req.body and save it to the database
 router.post("/todos", async (req: Request, res: Response) => {
-    const { task_name, task_status } = req.body
+    const { task_name, task_description, task_asignee, task_status, task_priority, project_id, start_date, due_date } = req.body;
     const task_id = uuidv4()
     try {
         //create validation for the data type and the number of the characthers
-        await pool.query(addTasks, [task_id, task_name, task_status]);
+        await pool.query(addTasks, [task_id, task_name, task_description, task_asignee, task_status, task_priority, project_id, start_date, due_date]);
         res.redirect('/todos')
-        // res.status(201).send("Task created successfully!");
     } catch (error) {
         console.error("Error saving todos", error);
         res.status(500).json({ error: "Error saving todos" });

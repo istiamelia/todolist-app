@@ -14,7 +14,7 @@ export const getTaskbyId: (task_id: string) => QueryConfig<any[]> = (task_id) =>
 // $1 is the parameter that will enable us to pass variable into it
 
 
-export const addTasks: SqlQuery = "INSERT INTO tasks (id, task_name, task_status) VALUES ($1, $2, $3)";
+export const addTasks: SqlQuery = "INSERT INTO tasks (task_id, task_name, task_description, task_asignee, task_status, task_priority, project_id, start_date, due_date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)";
 
 export const deleteTask: (task_id: string) => QueryConfig<any[]> = (task_id) => ({
     text: "UPDATE tasks SET deleted_at = NOW() WHERE task_id = $1",

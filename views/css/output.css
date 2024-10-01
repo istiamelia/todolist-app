@@ -1135,6 +1135,11 @@ select{
   background-color: rgb(255 237 213 / var(--tw-bg-opacity));
 }
 
+.bg-purple2{
+  --tw-bg-opacity: 1;
+  background-color: rgb(80 70 229 / var(--tw-bg-opacity));
+}
+
 .bg-red-100{
   --tw-bg-opacity: 1;
   background-color: rgb(254 226 226 / var(--tw-bg-opacity));
@@ -1330,6 +1335,11 @@ select{
   color: rgb(185 28 28 / var(--tw-text-opacity));
 }
 
+.text-white{
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
 .text-yellow-700{
   --tw-text-opacity: 1;
   color: rgb(161 98 7 / var(--tw-text-opacity));
@@ -1440,8 +1450,17 @@ select{
   background-color: rgb(172 166 255 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-transparent:hover{
+  background-color: transparent;
+}
+
 .hover\:fill-gray-main:hover{
   fill: #949495;
+}
+
+.hover\:text-purple2:hover{
+  --tw-text-opacity: 1;
+  color: rgb(80 70 229 / var(--tw-text-opacity));
 }
 
 .hover\:text-white:hover{
