@@ -908,6 +908,10 @@ select{
   margin-bottom: 1.25rem;
 }
 
+.ml-7{
+  margin-left: 1.75rem;
+}
+
 .block{
   display: block;
 }
@@ -1039,6 +1043,10 @@ select{
 .gap-x-1{
   -moz-column-gap: 0.25rem;
        column-gap: 0.25rem;
+}
+
+.place-self-center{
+  place-self: center;
 }
 
 .overflow-hidden{

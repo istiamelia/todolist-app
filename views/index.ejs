@@ -148,7 +148,6 @@
             <textarea name="task-description" id="task-description"
               class="mx-7 w-1/2 text-xs rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
               </textarea>
-
           </section>
           <!-- TASK ASIGNEE -->
           <section id="taskAsigneeSection" class="flex flex-row items-center mb-5">
@@ -238,6 +237,53 @@
                   Not Important
                 </label>
               </div>
+            </section>
+          </section>
+          <!-- Project Name -->
+          <section id="projectName" class="flex flex-row items-center mb-5">
+            <label for="project-name">
+              <svg lass="fill-gray-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                viewBox="0 0 24 24">
+                <path
+                  d="M7.25 6a.75.75 0 0 0-.75.75v7.5a.75.75 0 0 0 1.5 0v-7.5A.75.75 0 0 0 7.25 6M12 6a.75.75 0 0 0-.75.75v4.5a.75.75 0 0 0 1.5 0v-4.5A.75.75 0 0 0 12 6m4 .75a.75.75 0 0 1 1.5 0v9.5a.75.75 0 0 1-1.5 0z" />
+                <path
+                  d="M3.75 2h16.5c.966 0 1.75.784 1.75 1.75v16.5A1.75 1.75 0 0 1 20.25 22H3.75A1.75 1.75 0 0 1 2 20.25V3.75C2 2.784 2.784 2 3.75 2M3.5 3.75v16.5c0 .138.112.25.25.25h16.5a.25.25 0 0 0 .25-.25V3.75a.25.25 0 0 0-.25-.25H3.75a.25.25 0 0 0-.25.25" />
+              </svg>
+            </label>
+            <select name="project-name" id="project-name"
+              class="mx-3 w-auto text-xs rounded-md border-0 text-gray-text ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              <% let lastProjectName="" ; %>
+                <% for (let task of tasks) { %>
+                  <% if (task.project_name !==lastProjectName) { %>
+                    <option value="<%= task.project_id %>">
+                      <%= task.project_name %>
+                    </option>
+                    <% lastProjectName=task.project_name; %>
+                      <% } %>
+                        <% } %>
+            </select>
+          </section>
+          <!-- Start and End Date -->
+
+          <section id="startAndEndDate" class="flex flex-col justify-start mb-5">
+            <section class="flex flex-row items-start mb-3">
+              <svg class="fill-gray-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                viewBox="0 0 24 24">
+                <path
+                  d="M8 13.885q-.31 0-.54-.23t-.23-.54t.23-.539t.54-.23t.54.23t.23.54t-.23.539t-.54.23m4 0q-.31 0-.54-.23t-.23-.54t.23-.539t.54-.23t.54.23t.23.54t-.23.539t-.54.23m4 0q-.31 0-.54-.23t-.23-.54t.23-.539t.54-.23t.54.23t.23.54t-.23.539t-.54.23M5.616 21q-.691 0-1.153-.462T4 19.385V6.615q0-.69.463-1.152T5.616 5h1.769V2.77h1.077V5h7.154V2.77h1V5h1.769q.69 0 1.153.463T20 6.616v12.769q0 .69-.462 1.153T18.384 21zm0-1h12.769q.23 0 .423-.192t.192-.424v-8.768H5v8.769q0 .23.192.423t.423.192M5 9.615h14v-3q0-.23-.192-.423T18.384 6H5.616q-.231 0-.424.192T5 6.616zm0 0V6z" />
+              </svg>
+              <span class="mx-3 text-xs text-gray-main">
+                Start Date and End Date
+              </span>
+            </section>
+            <section class="flex flex-row items-start">
+              <input type="date" id="startDate" name="start-date" value="" min="2024-01-01" max="2030-12-31"
+                class="ml-7 w-auto text-xs rounded-md border-0 text-gray-text ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+              <span class="mx-3 text-xs text-gray-main place-self-center">
+                -
+              </span>
+              <input type="date" id="endDate" name="end-date" value="" min="2024-01-01" max="2030-12-31"
+                class="w-auto text-xs rounded-md border-0 text-gray-text ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
             </section>
           </section>
           <section>

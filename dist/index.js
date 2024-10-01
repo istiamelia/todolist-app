@@ -127,11 +127,11 @@ function taskStatusAndPriorityStyles() {
     const taskPriorityLabel = document.querySelectorAll(".taskPriority");
     taskStatusLabel.forEach(taskStatusLabel => {
         const taskStatusLabelElement = taskStatusLabel;
-        taskStatusLabel.className = "taskStatus peer-checked:bg-purple2 peer-checked:text-white mx-1 text-xs text-purple2 drop-shadow-sm px-3 py-1 w-auto focus:ring focus:ring-violet-300 bg-faded-gray hover:bg-purple3 rounded-full";
+        taskStatusLabel.className = "taskStatus peer-checked:bg-purple2 peer-checked:text-white mx-1 text-xs text-purple2 drop-shadow-sm px-3 py-1 w-auto focus:ring focus:ring-violet-300 bg-faded-gray hover:bg-purple3 hover:text-white rounded-full";
     });
     taskPriorityLabel.forEach(taskPriorityLabel => {
         const taskPriorityLabelElement = taskPriorityLabel;
-        taskPriorityLabel.className = "taskStatus peer-checked:bg-purple2 peer-checked:text-white mx-1 text-xs text-purple2 drop-shadow-sm px-3 py-1 w-auto focus:ring focus:ring-violet-300 bg-faded-gray hover:bg-purple3 rounded-full";
+        taskPriorityLabel.className = "taskStatus peer-checked:bg-purple2 peer-checked:text-white mx-1 text-xs text-purple2 drop-shadow-sm px-3 py-1 w-auto focus:ring focus:ring-violet-300 bg-faded-gray hover:bg-purple3 hover:text-white rounded-full";
     });
 }
 document.addEventListener("DOMContentLoaded", () => {
