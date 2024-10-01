@@ -3,6 +3,7 @@ type SqlQuery = string;
 
 // export const getTasks: SqlQuery = "SELECT tasks.task_id, tasks.task_name, tasks.task_description, tasks.task_asignee, tasks.task_status, tasks.task_priority, tasks.start_date, tasks.due_date, tasks.created_at, tasks.updated_at, projects.project_name, projects.project_description FROM tasks JOIN projects ON tasks.project_id = projects.project_id WHERE task_status != 'Completed'";
 export const getTasks: SqlQuery = "SELECT projects.project_id, projects.project_name, projects.project_description, projects.created_at, tasks.task_id, tasks.task_name, tasks.task_description, tasks.task_asignee, tasks.task_status, tasks.task_priority, tasks.start_date, tasks.due_date, tasks.created_at AS task_created_at, tasks.updated_at AS task_updated_at FROM projects LEFT JOIN tasks ON projects.project_id = tasks.project_id WHERE task_status != 'Completed'";
+export const getProjects: SqlQuery = "SELECT * FROM projects";
 export const getCompletedTasks: SqlQuery = "SELECT * FROM tasks WHERE task_status = 'Completed' AND deleted_at IS NULL";
 
 export const getTaskbyId: (task_id: string) => QueryConfig<any[]> = (task_id) => ({

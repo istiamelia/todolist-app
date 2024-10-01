@@ -10,15 +10,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import { Router } from "express";
 import pool from "./config/db";
 import { v4 as uuidv4 } from 'uuid';
-import { getTasks, getTaskbyId, addTasks, deleteTask, updateTask, deleteAllTasks, updateCompleted, getCompletedTasks } from "./queries";
+import { getTasks, getTaskbyId, addTasks, deleteTask, updateTask, deleteAllTasks, updateCompleted, getCompletedTasks, getProjects } from "./queries";
 const router = Router();
 export default router;
 // --- Get Request to fetch all data from the database
 router.get("/todos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield pool.query(getTasks);
+        const result2 = yield pool.query(getProjects);
         const tasks = result.rows;
-        res.render('index', { tasks });
+        const projects = result2.rows;
+        res.render('index', { tasks, projects });
     }
     catch (error) {
         console.error("Error fetching todos", error);

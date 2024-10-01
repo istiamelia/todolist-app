@@ -2,7 +2,7 @@ import { Router, Request, Response } from "express";
 import { QueryResult } from "pg";
 import pool from "./config/db";
 import { v4 as uuidv4 } from 'uuid';
-import { getTasks, getTaskbyId, addTasks, deleteTask, updateTask, deleteAllTasks, updateCompleted, getCompletedTasks } from "./queries";
+import { getTasks, getTaskbyId, addTasks, deleteTask, updateTask, deleteAllTasks, updateCompleted, getCompletedTasks, getProjects } from "./queries";
 
 const router = Router();
 export default router;
@@ -25,14 +25,21 @@ interface Task {
     project_description: string;
     created_at: Date;
 }
-
+interface Project {
+    project_id: number;
+    project_name: string;
+    project_description: string;
+    created_at: Date;
+}
 
 // --- Get Request to fetch all data from the database
 router.get("/todos", async (req: Request, res: Response) => {
     try {
         const result: QueryResult = await pool.query(getTasks);
+        const result2: QueryResult = await pool.query(getProjects);
         const tasks: Task[] = result.rows;
-        res.render('index', { tasks })
+        const projects: Project[] = result2.rows;
+        res.render('index', { tasks, projects })
     } catch (error) {
         console.error("Error fetching todos", error);
         res.status(500).json({ error: "Error fetching todos" });

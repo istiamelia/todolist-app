@@ -50,3 +50,6 @@ VALUES (3, 'Testing FDIS New Feature', 'Testing FDIS New Feature');
 
 INSERT INTO tasks (task_id, task_name, task_description, task_asignee, task_priority, start_date, due_date, project_id)
 VALUES ('3ac2bf42-151a-4fba-9b84-5038c78292f8', 'Check BRI Provider', 'to Check FDIS', 'Isti Amelia Isnaeni', 'Must Have', '2024-09-25', '2024-09-25', 3);
+
+INSERT INTO projects (project_id, project_name, project_description) 
+VALUES (4, 'Monthly Closing September 2024', 'Monthly Closing September 2024');
