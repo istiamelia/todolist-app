@@ -69,43 +69,38 @@ function navigationChild() {
 function taskDetail() {
     const taskPriorities = document.querySelectorAll(".task-priority")
     const taskStatuses = document.querySelectorAll(".task-status")
-    const taskStatusList: Record<string, string[]> = {
-        "In Progress": ["text-yellow-700", "bg-yellow-100"],
-        "In Review": ["text-blue-700", "bg-blue-100"],
-        "Stuck": ["text-red-700", "bg-red-100"],
-        "Completed": ["text-green-700", "bg-green-100"]
+    const stateColor: { [key: number]: string[] }={
+        0: ["text-yellow-700", "bg-yellow-100"],
+        1: ["text-blue-700", "bg-blue-100"],
+        2: ["text-red-700", "bg-red-100"],
+        3: ["text-green-700", "bg-green-100"],
+        4: ["text-gray-700", "bg-gray-100"]
     }
-    const taskPrioritiesList: Record<string, string[]> = {
-        "Must Have": ["text-red-700", "bg-red-100"],
-        "Should Have": ["text-orange-700", "bg-orange-100"],
-        "Nice to Have": ["text-yellow-700", "bg-yellow-100"],
-        "Could Have": ["text-blue-700", "bg-blue-100"],
-        "Not Important": ["text-gray-700", "bg-gray-100"]
-    }
-    taskPriorities.forEach(taskPriority => {
+    const taskStatusList: string[] = ["In Progress", "In Review", "Stuck", "Completed"]
+    const taskPrioritiesList:string[] =["Nice to Have", "Could Have", "Must Have", "Should Have", "Not Important"]
+    
+    taskPriorities.forEach((taskPriority,index) => {
         // Cast the Element as an HTMLElement since using QuerySelectorAll returns a list of generic Element that by default has innerText Property
-        const taskPriorityElement = taskPriority as HTMLElement;
-        for (let key in taskPrioritiesList) {
-            if (taskPriorityElement?.innerText === key) {
-                // Add each class from the array to the element
-                taskPrioritiesList[key].forEach(className => {
-                    taskPriorityElement.classList.add(className);
-                });
+        const [taskPriorityElement, taskStatusElement] = [
+            taskPriority as HTMLElement, 
+            taskStatuses[index] as HTMLElement
+        ];
+
+        const indexTaskPriority = taskPrioritiesList.indexOf(taskPriorityElement.innerText);
+        const indexTaskStatus = taskStatusList.indexOf(taskStatusElement.innerText);
+        // If the index is valid, add the corresponding classes from stateColor
+        const elementsToUpdate = [
+            { index: indexTaskPriority, element: taskPriorityElement },
+            { index: indexTaskStatus, element: taskStatusElement }
+          ];
+          
+          elementsToUpdate.forEach(({ index, element }) => {
+            if (index !== -1 && stateColor[index]) {
+              element.classList.add(...stateColor[index]);
             }
-        }
+          });
     })
-    taskStatuses.forEach(taskStatus => {
-        // Cast the Element as an HTMLElement since using QuerySelectorAll returns a list of generic Element that by default has innerText Property
-        const taskStatusElement = taskStatus as HTMLElement;
-        for (let key in taskStatusList) {
-            if (taskStatusElement.innerText === key) {
-                // Add each class from the array to the element
-                taskStatusList[key].forEach(className => {
-                    taskStatusElement.classList.add(className);
-                });
-            }
-        }
-    })
+
 }
 
 function openModalAddTask() {
@@ -125,16 +120,19 @@ function openModalAddTask() {
 }
 
 function taskStatusAndPriorityStyles() {
-    const taskStatusLabel = document.querySelectorAll(".taskStatus");
-    const taskPriorityLabel = document.querySelectorAll(".taskPriority");
-    taskStatusLabel.forEach(taskStatusLabel => {
-        const taskStatusLabelElement = taskStatusLabel as HTMLElement;
-        taskStatusLabel.className = "taskStatus peer-checked:bg-purple2 peer-checked:text-white mx-1 text-xs text-purple2 drop-shadow-sm px-3 py-1 w-auto focus:ring focus:ring-violet-300 bg-faded-gray hover:bg-purple3 hover:text-white rounded-full";
+    const taskStatusLabels = document.querySelectorAll(".taskStatus");
+    const taskPriorityLabels = document.querySelectorAll(".taskPriority");
+    const classNameLabel = "taskStatus peer-checked:bg-purple2 peer-checked:text-white mx-1 text-xs text-purple2 drop-shadow-sm px-3 py-1 w-auto focus:ring focus:ring-violet-300 bg-faded-gray hover:bg-purple3 hover:text-white rounded-full";
+    taskPriorityLabels.forEach((taskPriorityLabel, index)=>{
+        const elementsToUpdate = [
+            {element: taskPriorityLabel },
+            {element: taskStatusLabels[index] }
+        ];
+        elementsToUpdate.forEach(({element})=>{
+            element.className = classNameLabel
+        })
     })
-    taskPriorityLabel.forEach(taskPriorityLabel => {
-        const taskPriorityLabelElement = taskPriorityLabel as HTMLElement;
-        taskPriorityLabel.className = "taskStatus peer-checked:bg-purple2 peer-checked:text-white mx-1 text-xs text-purple2 drop-shadow-sm px-3 py-1 w-auto focus:ring focus:ring-violet-300 bg-faded-gray hover:bg-purple3 hover:text-white rounded-full";
-    })
+    
 }
 
 document.addEventListener("DOMContentLoaded", () => {

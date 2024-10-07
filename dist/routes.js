@@ -10,14 +10,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import { Router } from "express";
 import pool from "./config/db";
 import { v4 as uuidv4 } from 'uuid';
-import { getTasks, getTaskbyId, addTasks, deleteTask, updateTask, deleteAllTasks, updateCompleted, getCompletedTasks, getProjects } from "./queries";
+// import { getTasks, getTaskbyId, addTasks, deleteTask, updateTask, deleteAllTasks, updateCompleted, getCompletedTasks, getProjects } from "./queries";
+// Simplify the import keyword of variables in queries.ts by grouping them into one object
+import * as taskQueries from "./queries";
 const router = Router();
 export default router;
 // --- Get Request to fetch all data from the database
 router.get("/todos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield pool.query(getTasks);
-        const result2 = yield pool.query(getProjects);
+        const result = yield pool.query(taskQueries.getTasks);
+        const result2 = yield pool.query(taskQueries.getProjects);
         const tasks = result.rows;
         const projects = result2.rows;
         res.render('index', { tasks, projects });
@@ -31,7 +33,7 @@ router.get("/todos", (req, res) => __awaiter(void 0, void 0, void 0, function* (
 router.get("/todos/:task_id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const task_id = req.params['task_id'];
     try {
-        const result = yield pool.query(getTaskbyId(task_id));
+        const result = yield pool.query(taskQueries.getTaskbyId(task_id));
         const todos = result.rows;
         res.json(todos);
     }
@@ -46,7 +48,7 @@ router.post("/todos", (req, res) => __awaiter(void 0, void 0, void 0, function* 
     const task_id = uuidv4();
     try {
         //create validation for the data type and the number of the characthers
-        yield pool.query(addTasks, [task_id, task_name, task_description, task_asignee, task_status, task_priority, project_id, start_date, due_date]);
+        yield pool.query(taskQueries.addTasks, [task_id, task_name, task_description, task_asignee, task_status, task_priority, project_id, start_date, due_date]);
         res.redirect('/todos');
     }
     catch (error) {
@@ -59,11 +61,11 @@ router.delete("/todos/:task_id", (req, res) => __awaiter(void 0, void 0, void 0,
     const task_id = req.params['task_id'];
     try {
         // first, checking wether the task exist in the database
-        const result = yield pool.query(getTaskbyId(task_id));
+        const result = yield pool.query(taskQueries.getTaskbyId(task_id));
         if (!result.rows.length) {
             res.send("Task does not exist in the database");
         }
-        yield pool.query(deleteTask(task_id));
+        yield pool.query(taskQueries.deleteTask(task_id));
         res.redirect('/todos');
     }
     catch (error) {
@@ -78,12 +80,12 @@ router.put("/todos/:task_id", (req, res) => __awaiter(void 0, void 0, void 0, fu
     const { task_name } = req.body;
     try {
         // first, checking wether the task exist in the database
-        const result = yield pool.query(getTaskbyId(task_id));
+        const result = yield pool.query(taskQueries.getTaskbyId(task_id));
         if (!result.rows.length) {
             res.send("Task does not exist in the database");
         }
         ;
-        yield pool.query(updateTask(task_name, task_id.toString()));
+        yield pool.query(taskQueries.updateTask(task_name, task_id.toString()));
         res.status(200).send("Task updated successfully!");
     }
     catch (error) {
@@ -94,7 +96,7 @@ router.put("/todos/:task_id", (req, res) => __awaiter(void 0, void 0, void 0, fu
 // --- Delete Request to Delete all task
 router.delete("/todos", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield pool.query(deleteAllTasks);
+        yield pool.query(taskQueries.deleteAllTasks);
         res.redirect('/todos');
     }
     catch (error) {
@@ -106,7 +108,7 @@ router.delete("/todos", (req, res) => __awaiter(void 0, void 0, void 0, function
 router.post("/todos/:task_id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const task_id = req.params['task_id'];
     try {
-        yield pool.query(updateCompleted(task_id));
+        yield pool.query(taskQueries.updateCompleted(task_id));
         res.redirect('/todos');
     }
     catch (error) {
@@ -119,7 +121,7 @@ router.post("/todos/:task_id", (req, res) => __awaiter(void 0, void 0, void 0, f
 // --- after being rendered the content in completed.ejs will be injected into DOM via loadpartial() *see index.ts
 router.get('/path/to/completed', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const resultCompleted = yield pool.query(getCompletedTasks);
+        const resultCompleted = yield pool.query(taskQueries.getCompletedTasks);
         const completedTasks = resultCompleted.rows;
         res.render('completed', { completedTasks });
     }

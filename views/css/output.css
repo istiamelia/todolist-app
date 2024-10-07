@@ -1130,11 +1130,6 @@ select{
   background-color: rgb(220 252 231 / var(--tw-bg-opacity));
 }
 
-.bg-orange-100{
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 237 213 / var(--tw-bg-opacity));
-}
-
 .bg-purple2{
   --tw-bg-opacity: 1;
   background-color: rgb(80 70 229 / var(--tw-bg-opacity));
@@ -1313,11 +1308,6 @@ select{
 .text-green-700{
   --tw-text-opacity: 1;
   color: rgb(21 128 61 / var(--tw-text-opacity));
-}
-
-.text-orange-700{
-  --tw-text-opacity: 1;
-  color: rgb(194 65 12 / var(--tw-text-opacity));
 }
 
 .text-purple-800{
