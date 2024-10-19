@@ -19,7 +19,7 @@
             <% lastProjectName=task.project_name; %> <!-- Update the last project name -->
                 <% } %>
                     <!-- List the tasks under the current project -->
-                    <li>
+                    <li key = <%= task.task_id %>>
                         <div class="section1 bg-white my-2 rounded-md px-3 py-3 drop-shadow-sm">
                             <div class="flex flex-row">
                                 <p class="task-priority text-xxxs w-auto h-auto focus:ring mx-1 rounded-md px-1">
