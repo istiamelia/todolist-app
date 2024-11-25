@@ -18,12 +18,12 @@ function TaskLi(props: Props) {
         <div className="section1 bg-white my-2 rounded-md px-3 py-3 drop-shadow-sm">
           <div className="flex flex-row">
             <p
-              className={`task-priority text-xxxs w-auto h-auto focus:ring mx-1 rounded-md px-1 text-${props.priority_color}-700 bg-${props.priority_color}-100`}
+              className={`task-priority text-xxxs w-auto h-auto focus:ring mx-1 rounded-md px-1 ${props.priority_color}`}
             >
               {props.task_priority}
             </p>
             <p
-              className={`task-status text-xxxs w-auto h-auto focus:ring mx-1 rounded-md px-1 text-${props.status_color}-700 bg-${props.status_color}-100`}
+              className={`task-status text-xxxs w-auto h-auto focus:ring mx-1 rounded-md px-1 ${props.status_color}`}
             >
               {props.task_status}
             </p>

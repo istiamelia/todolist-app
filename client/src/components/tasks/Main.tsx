@@ -44,17 +44,17 @@ function Main() {
 
   const colorMap: Record<string, Record<string, string>> = {
     priority: {
-      "Nice to Have": "yellow",
-      "Could Have": "blue",
-      "Must Have": "red",
-      "Should Have": "green",
-      "Not Important": "gray",
+      "Nice to Have": "text-yellow-700 bg-yellow-100",
+      "Could Have": "text-blue-700 bg-blue-100",
+      "Must Have": "text-red-700 bg-red-100",
+      "Should Have": "text-green-700 bg-green-100",
+      "Not Important": "text-gray-700 bg-gray-100",
     },
     status: {
-      "In Progress": "yellow",
-      "In Review": "blue",
-      Stuck: "red",
-      Completed: "green",
+      "In Progress": "text-yellow-700 bg-yellow-100",
+      "In Review": "text-blue-700 bg-blue-100",
+      Stuck: "text-red-700 bg-red-100",
+      Completed: "text-green-700 bg-green-100",
     },
   };
 
