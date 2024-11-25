@@ -3,7 +3,7 @@
     "allowJs": true,
     "target": "ES2016",
     "module": "ESNext",
-    "outDir": "./dist",
+    "outDir": "server/dist",
     "rootDir": "./src",
     "strict": true,
     "allowSyntheticDefaultImports": true,
@@ -17,9 +17,9 @@
     "src/config/db.ts"
   ],
   "exclude": [
-    "node_modules",
-    "./node_modules",
-    "./node_modules/*",
-    "./node_modules/@types/node/index.d.ts",
+    "server/node_modules",
+    "server/node_modules",
+    "server/node_modules/*",
+    "server/node_modules/@types/node/index.d.ts",
   ]
 }

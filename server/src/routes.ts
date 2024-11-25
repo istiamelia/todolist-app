@@ -41,7 +41,9 @@ router.get("/todos", async (req: Request, res: Response) => {
         const result2: QueryResult = await pool.query(taskQueries.getProjects);
         const tasks: Task[] = result.rows;
         const projects: Project[] = result2.rows;
-        res.render('index', { tasks, projects })
+        console.log("Tasks:", tasks);
+        console.log("Projects:", projects);
+        res.send({tasks, projects })
     } catch (error) {
         console.error("Error fetching todos", error);
         res.status(500).json({ error: "Error fetching todos" });

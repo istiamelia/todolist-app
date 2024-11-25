@@ -22,7 +22,9 @@ router.get("/todos", (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const result2 = yield pool.query(taskQueries.getProjects);
         const tasks = result.rows;
         const projects = result2.rows;
-        res.render('index', { tasks, projects });
+        console.log("Tasks:", tasks);
+        console.log("Projects:", projects);
+        res.send({ tasks, projects });
     }
     catch (error) {
         console.error("Error fetching todos", error);
