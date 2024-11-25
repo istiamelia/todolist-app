@@ -12,7 +12,6 @@ function TaskLi(props: Props) {
   const dueDate = new Date(props.due_date);
   const formattedDate = dueDate.toLocaleDateString("en-US");
 
-  console.log(props.task_priority);
   return (
     <>
       <li>
