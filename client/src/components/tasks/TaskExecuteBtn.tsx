@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import AddTaskModal from "./AddTaskModal";
 
 interface Props {
   d: string;
@@ -6,13 +7,15 @@ interface Props {
   viewBox: string;
   color: string;
   type: "submit" | "reset" | "button" | undefined;
+  onClick: () => void;
 }
 
-function Button({ d, text, viewBox, type, color }: Props) {
+function Button({ d, text, viewBox, type, color, onClick }: Props) {
   return (
     <button
       type={type}
       className={`mx-1 text-xs text-${color} drop-shadow-sm px-3 py-1 w-auto ring-1 ring-purple2 focus:ring focus:ring-purple2 bg-transparent active:bg-${color} hover:bg-purple2 active:text-white hover:text-white rounded-full flex flex-row place-items-center`}
+      onClick={onClick}
     >
       <svg
         className="font-semibold fill-current active:text-white hover:text-white"
@@ -29,6 +32,7 @@ function Button({ d, text, viewBox, type, color }: Props) {
 }
 
 function TaskExecuteBtn() {
+  const [newTaskModal, setNewTaskModal] = useState(false);
   return (
     <>
       <div id="task-execute" className="flex flex-row justify-end">
@@ -37,10 +41,10 @@ function TaskExecuteBtn() {
           d={"M11.5 12.5H6v-1h5.5V6h1v5.5H18v1h-5.5V18h-1z"}
           text={"New Task"}
           viewBox={"0 0 24 24"}
-          type="button"
+          type="submit"
           color="purple2"
+          onClick={() => setNewTaskModal(true)}
         />
-
         <form className="mx-1" action="" method="post">
           <Button
             d={
@@ -50,6 +54,7 @@ function TaskExecuteBtn() {
             viewBox={"0 0 32 32"}
             type="submit"
             color="purple2"
+            onClick={() => console.log("ok")}
           />
         </form>
 
@@ -62,8 +67,17 @@ function TaskExecuteBtn() {
             viewBox={"0 0 24 24"}
             type="submit"
             color="delete2"
+            onClick={() => null}
           />
         </form>
+        <AddTaskModal
+          visibility={
+            newTaskModal === true
+              ? "open opacity-[1] visible z-[999]"
+              : "hidden opacity-0"
+          }
+          onStatusChange={setNewTaskModal}
+        />
       </div>
     </>
   );
