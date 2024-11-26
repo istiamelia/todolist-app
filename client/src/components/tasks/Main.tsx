@@ -33,6 +33,7 @@ interface Todo {
 
 function Main() {
   const [data, setData] = useState<Todo>();
+  let [filterStatus, setFilterStatus] = useState<string[]>([]);
   useEffect(() => {
     fetch("http://localhost:3001/api/todos")
       .then((response) => response.json())
@@ -67,14 +68,18 @@ function Main() {
         <h1 className=" text-gray-700 font-semibold mb-5">
           Hello, Rifan Adriansyah!
         </h1>
-        <TaskCategoryBtn />
+        <TaskCategoryBtn onCheckStatus={setFilterStatus} />
         <TaskExecuteBtn />
         <hr className="my-3 -mx-6 border-t-[0.5px] border-gray-200"></hr>
         <div className="flex flex-row gap-4">
           {data?.projects.map((project) => (
             <TaskBoard project_name={project.project_name}>
               {data.tasks
-                .filter((task) => task.project_id === project.project_id)
+                .filter(
+                  (task) =>
+                    task.project_id === project.project_id &&
+                    filterStatus.some((status) => task.task_status === status)
+                )
                 .map((task) => (
                   <TaskLi
                     task_name={task.task_name}
