@@ -3,6 +3,11 @@ export default {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}"
   ],
+  safelist: [
+    'text-delete', 'ring-delete', 'focus:ring-delete', 'active:bg-delete', 'hover:bg-delete',
+    'text-purple2', 'ring-purple2', 'focus:ring-purple2', 'active:bg-purple2', 'hover:bg-purple2',
+    'fill-red-700'
+  ],
   theme: {
     extend: {
       colors: {

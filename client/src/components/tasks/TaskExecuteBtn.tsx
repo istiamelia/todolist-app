@@ -16,7 +16,7 @@ function Button({ d, text, viewBox, type, color, onClick }: Props) {
   return (
     <button
       type={type}
-      className={`mx-1 text-xs text-${color} drop-shadow-sm px-3 py-1 w-auto ring-1 ring-purple2 focus:ring focus:ring-purple2 bg-transparent active:bg-${color} hover:bg-purple2 active:text-white hover:text-white rounded-full flex flex-row place-items-center`}
+      className={`mx-1 text-xs text-${color} drop-shadow-sm px-3 py-1 w-auto ring-1 ring-${color} focus:ring focus:ring-${color} bg-transparent active:bg-${color} hover:bg-${color} active:text-white hover:text-white rounded-full flex flex-row place-items-center`}
       onClick={onClick}
     >
       <Icons
@@ -62,7 +62,7 @@ function TaskExecuteBtn() {
             text={"Delete All"}
             viewBox={"0 0 24 24"}
             type="submit"
-            color="delete2"
+            color="delete"
             onClick={() => null}
           />
         </form>
