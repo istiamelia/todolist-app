@@ -58,7 +58,43 @@ function Main() {
       Completed: "text-green-700 bg-green-100",
     },
   };
-
+  function taskBoard() {
+    return (
+      <>
+        {data?.projects.map((project) => {
+          const filteredTasks = data.tasks.filter(
+            (task) =>
+              task.project_id === project.project_id &&
+              filterStatus.some((status) => task.task_status === status)
+          );
+          return (
+            <TaskBoard
+              project_name={project.project_name}
+              key={project.project_id}
+              display={filteredTasks.length != 0 ? "block" : "hidden"}
+            >
+              {filteredTasks.map((task) => (
+                <TaskLi
+                  key={task.task_id}
+                  task_name={task.task_name}
+                  task_priority={task.task_priority}
+                  priority_color={colorMap.priority[task.task_priority]}
+                  task_status={task.task_status}
+                  status_color={colorMap.status[task.task_status]}
+                  due_date={task.due_date}
+                  due_color={
+                    new Date(task.due_date) > new Date()
+                      ? "gray-main"
+                      : "red-700"
+                  }
+                />
+              ))}
+            </TaskBoard>
+          );
+        })}
+      </>
+    );
+  }
   return (
     <>
       <main
@@ -71,33 +107,7 @@ function Main() {
         <TaskCategoryBtn onCheckStatus={setFilterStatus} />
         <TaskExecuteBtn />
         <hr className="my-3 -mx-6 border-t-[0.5px] border-gray-200"></hr>
-        <div className="flex flex-row gap-4">
-          {data?.projects.map((project) => (
-            <TaskBoard project_name={project.project_name}>
-              {data.tasks
-                .filter(
-                  (task) =>
-                    task.project_id === project.project_id &&
-                    filterStatus.some((status) => task.task_status === status)
-                )
-                .map((task) => (
-                  <TaskLi
-                    task_name={task.task_name}
-                    task_priority={task.task_priority}
-                    priority_color={colorMap.priority[task.task_priority]}
-                    task_status={task.task_status}
-                    status_color={colorMap.status[task.task_status]}
-                    due_date={task.due_date}
-                    due_color={
-                      new Date(task.due_date) > new Date()
-                        ? "gray-main"
-                        : "red-700"
-                    }
-                  />
-                ))}
-            </TaskBoard>
-          ))}
-        </div>
+        <div className="flex flex-row gap-4">{taskBoard()}</div>
       </main>
     </>
   );

@@ -18,8 +18,8 @@ function TaskLi(props: Props) {
   return (
     <>
       <li className="hover:shadow-lg cursor-pointer">
-        <div className="section1 bg-white my-2 rounded-md px-3 py-3 drop-shadow-sm">
-          <div className="flex flex-row">
+        <div className="bg-white my-2 rounded-md px-3 py-3 drop-shadow-sm">
+          <div className="section1 flex flex-row">
             <p
               className={`task-priority text-xxxs w-auto h-auto focus:ring mx-1 rounded-sm px-1 ${props.priority_color}`}
             >
