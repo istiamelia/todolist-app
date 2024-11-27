@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import axios from "axios";
 import TaskCategoryBtn from "./TaskCategoryBtn";
 import TaskExecuteBtn from "./TaskExecuteBtn";
 import TaskBoard from "./TaskBoard";
@@ -34,13 +35,11 @@ interface Todo {
 function Main() {
   const [data, setData] = useState<Todo>();
   let [filterStatus, setFilterStatus] = useState<string[]>([]);
+  const url = "http://localhost:3001/api/todos";
   useEffect(() => {
-    fetch("http://localhost:3001/api/todos")
-      .then((response) => response.json())
-      .then((json) => {
-        setData(json);
-      })
-      .catch((error) => console.error(error));
+    axios.get(url).then((res) => {
+      setData(res.data);
+    });
   }, []);
 
   const colorMap: Record<string, Record<string, string>> = {

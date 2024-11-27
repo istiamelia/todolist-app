@@ -34,41 +34,41 @@ function Sidebar({
     <>
       <section
         id="sidebar"
-        className={`bg-white col-start-1 col-end-2 row-start-1 row-end-3 border-r-[0.5px] border-gray-200 pl-2 py-1 ${
-          collapse ? "hidden" : "visible"
-        }`}
+        className={`bg-white col-start-1 col-end-2 row-start-1 row-end-3 border-r-[0.5px] border-gray-200 pl-2 py-1}`}
       >
-        <div
-          id="profile"
-          className="flex flex-row justify-between px-5 mb-10 place-items-center h-[60px]"
-        >
-          <img
-            className="h-[50px] w-[50px] object-cover rounded-full list-image-profile"
-            src="https://images.unsplash.com/photo-1590895340509-793cb98788c9?q=80&w=2077&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt=""
-          ></img>
-          <a className="m-auto text-gray-700 font-semibold text-m" href="">
-            Rifan Adriansyah
-          </a>
+        <div className={`${collapse ? "hidden" : "visible"}`}>
           <div
-            className="relative group"
-            onClick={() => {
-              setCollapse(true);
-              onSidebarChange(true);
-            }}
+            id="profile"
+            className="flex flex-row justify-start px-5 mb-10 place-items-center h-[60px]"
           >
-            <i className="fa fa-angles-left hover:bg-gray-200 rounded-md w-8 h-8 flex justify-center items-center"></i>
-            <div className="absolute left-0 top-10 hidden group-hover:block bg-gray-100 p-1 rounded shadow-md text-[10px]">
-              Collapse
+            <img
+              className="h-[50px] w-[50px] object-cover rounded-full list-image-profile"
+              src="https://images.unsplash.com/photo-1590895340509-793cb98788c9?q=80&w=2077&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt=""
+            ></img>
+            <a className="m-auto text-gray-700 font-semibold text-m" href="">
+              Rifan Adriansyah
+            </a>
+            <div
+              className="absolute group left-72 "
+              onClick={() => {
+                setCollapse(true);
+                onSidebarChange(true);
+              }}
+            >
+              <i className="fa fa-angles-left bg-white border-[1.5px] hover:bg-gray-200 rounded-full w-8 h-8 flex justify-center items-center"></i>
+              <div className="absolute left-0 top-10 hidden group-hover:block bg-gray-100 p-1 rounded shadow-md text-[10px]">
+                Collapse
+              </div>
             </div>
           </div>
-        </div>
-        {/* Navigation menu */}
-        <div
-          className="flex flex-col gap-3 h-[250px] justify-between py-3 px-3"
-          id="navigation"
-        >
-          <div className="">{menuIcons}</div>
+          {/* Navigation menu */}
+          <div
+            className="flex flex-col gap-3 h-[250px] justify-between py-3 px-3"
+            id="navigation"
+          >
+            <div className="">{menuIcons}</div>
+          </div>
         </div>
       </section>
     </>

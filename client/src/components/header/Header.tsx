@@ -16,7 +16,7 @@ function Header({
       >
         <div className="flex">
           <div
-            className={`relative group ${
+            className={`absolute left-2 group ${
               collapse === true ? "visible" : "hidden"
             }`}
             onClick={() => {
@@ -24,7 +24,7 @@ function Header({
               onSidebarChange(useCollapse);
             }}
           >
-            <i className="fa fa-bars mr-2 border hover:bg-gray-200 rounded-md w-8 h-8 flex justify-center items-center"></i>
+            <i className="fa fa-angles-right bg-white mr-2 border-[1.5px] hover:bg-gray-200 rounded-full w-8 h-8 flex justify-center items-center"></i>
             <div className="absolute w-[85px] left-0 top-10 hidden group-hover:block bg-gray-100 p-1 rounded shadow-md text-[10px]">
               Expand Sidebar
             </div>
