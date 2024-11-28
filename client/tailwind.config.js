@@ -4,8 +4,8 @@ export default {
     "./src/**/*.{js,jsx,ts,tsx}"
   ],
   safelist: [
-    'text-delete', 'ring-delete', 'focus:ring-delete', 'active:bg-delete', 'hover:bg-delete', 'bg-delete-200',
-    'text-purple2', 'ring-purple2', 'focus:ring-purple2', 'active:bg-purple2', 'hover:bg-purple2','bg-purple2-200',
+    'text-delete', 'ring-delete', 'focus:ring-delete', 'active:bg-delete-200', 'hover:bg-delete-200', 'bg-delete', 'hover:text-delete',
+    'text-purple2', 'ring-purple2', 'focus:ring-purple2', 'active:bg-purple2-200', 'hover:bg-purple2-200','bg-purple2','hover:text-purple2',
     'fill-red-700'
   ],
   theme: {

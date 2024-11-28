@@ -1,11 +1,61 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Icons from "../utils/Icons";
 import svgPaths from "../../assets/svgPaths.json";
+import { data } from "react-router-dom";
 
 interface Props {
   name: string;
   value: string;
   defaultChecked?: boolean;
+}
+interface Todo {
+  tasks: {
+    task_id: string;
+    task_name: string;
+    task_description: string;
+    task_asignee: string;
+    task_status: string;
+    task_priority: string;
+    start_date: Date;
+    due_date: Date;
+    deleted_date: Date;
+    created_date: Date;
+    updated_date: Date;
+    project_id: number;
+    project_name: string;
+    project_description: string;
+    created_at: Date;
+  }[];
+  projects: {
+    project_id: number;
+    project_name: string;
+    project_description: string;
+    created_at: Date;
+  }[];
+}
+
+function ProjectName() {
+  const [data, setData] = useState<Todo>();
+  const url = "http://localhost:3001/api/todos";
+  useEffect(() => {
+    axios.get(url).then((res) => {
+      setData(res.data);
+    });
+  }, []);
+  return (
+    <>
+      {data?.projects.map((project) => {
+        return (
+          <>
+            <option value={`${project.project_id}`}>
+              {project.project_name}
+            </option>
+          </>
+        );
+      })}
+    </>
+  );
 }
 
 function StatusLabel({ name, value, defaultChecked }: Props) {
@@ -38,7 +88,6 @@ function DateInput({ id, name }: { id: string; name: string }) {
         type="date"
         id={id}
         name={name}
-        value=""
         min="2024-01-01"
         max="2030-12-31"
         className=" w-auto text-xs rounded-md border-0 text-gray-text ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -54,6 +103,36 @@ function AddTaskModal({
   visibility: string;
   onStatusChange: (status: boolean) => void;
 }) {
+  const [post, setPost] = useState({
+    task_name: "",
+    task_description: "",
+    task_asignee: "",
+    task_status: "",
+    task_priority: "",
+    project_id: 1,
+    start_date: Date(),
+    end_date: Date(),
+  });
+
+  const handleInput = (e: React.ChangeEvent<HTMLElement>) => {
+    const target = e.target as HTMLInputElement | HTMLTextAreaElement;
+    setPost({ ...post, [target.name]: target.value });
+  };
+
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setPost({ ...post, [e.target.name]: e.target.value });
+  };
+  console.log(post);
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    // e.preventDefault();
+    const url = "http://localhost:3001/api/todos";
+    const formData = new FormData(e.currentTarget); // Create FormData from the form
+    const formObject = Object.fromEntries(formData); // Convert FormData to an object
+    axios.post(url, formObject).then((response) => {
+      console.log(response.status, response.data.token);
+    });
+  };
+
   return (
     <>
       <div
@@ -62,7 +141,7 @@ function AddTaskModal({
       >
         <div className="flex justify-center items-center text-center min-h-full">
           <div className="add-task-inner bg-white w-1/2 px-5 py-5 flex justify-items-start-start flex-col gap-x-1 rounded-xl">
-            <form action="/todos" id="task-form" method="post">
+            <form id="task-form" onSubmit={onSubmit}>
               {/* TASK NAME */}
               <section
                 id="taskNameSection"
@@ -81,10 +160,11 @@ function AddTaskModal({
                   type="text"
                   name="task_name"
                   id="task_name"
+                  onChange={handleInput}
                   className="mx-3 w-1/2 text-xs rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </section>
-
+              {/* TASK DESCRIPTION */}
               <section
                 id="taskDescriptionSection"
                 className="flex flex-col justify-start mb-5"
@@ -105,6 +185,7 @@ function AddTaskModal({
                   </span>
                 </label>
                 <textarea
+                  onChange={handleInput}
                   name="task_description"
                   id="task_description"
                   className="mx-7 w-1/2 text-xs rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -127,6 +208,8 @@ function AddTaskModal({
                 <select
                   name="task_asignee"
                   id="task_asignee"
+                  onChange={handleSelect}
+                  value={post.task_asignee}
                   className="mx-3 w-auto text-xs rounded-md border-0 text-gray-text ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 >
                   <option value="Isti Amelia Isnaeni">
@@ -181,6 +264,7 @@ function AddTaskModal({
                   <StatusLabel name="task_priority" value="Not Important" />
                 </section>
               </section>
+              {/* PROJECT NAME */}
               <section
                 id="projectName"
                 className="flex flex-row items-center mb-5"
@@ -198,7 +282,9 @@ function AddTaskModal({
                   name="project_id"
                   id="project_id"
                   className="mx-3 w-auto text-xs rounded-md border-0 text-gray-text ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                ></select>
+                >
+                  <ProjectName />
+                </select>
               </section>
 
               <section
