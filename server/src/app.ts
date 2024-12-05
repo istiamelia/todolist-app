@@ -1,17 +1,18 @@
-// import express module
-import express from "express";
 //Import dotnev for environment variables
 import dotenv from 'dotenv';
 dotenv.config()
+// import express module
+import express from "express";
 // import cors
 import cors from "cors"
 import path from "path";
-// @ts-ignore
-import engine from "ejs-mate";
-import todoRoutes from "./routes";
-import pool from "./config/db";
 //defining method-override to manipulate the HTTP methods
 import methodOverride from 'method-override';
+
+
+import todoRoutes from "./routes";
+import pool from "./config/db";
+
 
 
 
@@ -24,15 +25,12 @@ const port = 3001;
 
 // Parse JSON bodies, allow us to post and get JSON
 app.use(express.json());
+// Middleware to parse URL-encoded bodies with extended options
+app.use(express.urlencoded({ extended: true }));
 
 //middleware to make server run at the same time with client
 app.use(cors())
-
-// Middleware to parse URL-encoded bodies with extended options
-app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-
-
 
 // ---- Defining Routes
 app.use("/api", todoRoutes);
