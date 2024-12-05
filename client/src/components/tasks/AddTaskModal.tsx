@@ -82,6 +82,7 @@ function StatusLabel({ name, value, defaultChecked }: Props) {
 }
 
 function DateInput({ id, name }: { id: string; name: string }) {
+  const date = new Date();
   return (
     <>
       <input
@@ -90,6 +91,7 @@ function DateInput({ id, name }: { id: string; name: string }) {
         name={name}
         min="2024-01-01"
         max="2030-12-31"
+        // value={date.toISOString().slice(0, 10)}
         className=" w-auto text-xs rounded-md border-0 text-gray-text ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
       />
     </>
@@ -103,34 +105,17 @@ function AddTaskModal({
   visibility: string;
   onStatusChange: (status: boolean) => void;
 }) {
-  const [post, setPost] = useState({
-    task_name: "",
-    task_description: "",
-    task_asignee: "",
-    task_status: "",
-    task_priority: "",
-    project_id: 1,
-    start_date: Date(),
-    end_date: Date(),
-  });
-
-  const handleInput = (e: React.ChangeEvent<HTMLElement>) => {
-    const target = e.target as HTMLInputElement | HTMLTextAreaElement;
-    setPost({ ...post, [target.name]: target.value });
-  };
-
-  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setPost({ ...post, [e.target.name]: e.target.value });
-  };
-  console.log(post);
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-    // e.preventDefault();
+    e.preventDefault();
     const url = "http://localhost:3001/api/todos";
     const formData = new FormData(e.currentTarget); // Create FormData from the form
     const formObject = Object.fromEntries(formData); // Convert FormData to an object
-    axios.post(url, formObject).then((response) => {
-      console.log(response.status, response.data.token);
-    });
+    axios
+      .post(url, formObject)
+      .then((response) => {
+        console.log("Submitted successfully:", response.data);
+      })
+      .catch((error) => console.error("Submission error:", error));
   };
 
   return (
@@ -160,7 +145,6 @@ function AddTaskModal({
                   type="text"
                   name="task_name"
                   id="task_name"
-                  onChange={handleInput}
                   className="mx-3 w-1/2 text-xs rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </section>
@@ -185,7 +169,6 @@ function AddTaskModal({
                   </span>
                 </label>
                 <textarea
-                  onChange={handleInput}
                   name="task_description"
                   id="task_description"
                   className="mx-7 w-1/2 text-xs rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -208,8 +191,6 @@ function AddTaskModal({
                 <select
                   name="task_asignee"
                   id="task_asignee"
-                  onChange={handleSelect}
-                  value={post.task_asignee}
                   className="mx-3 w-auto text-xs rounded-md border-0 text-gray-text ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 >
                   <option value="Isti Amelia Isnaeni">
@@ -308,7 +289,7 @@ function AddTaskModal({
                   <span className="mx-3 text-xs text-gray-main place-self-center">
                     -
                   </span>
-                  <DateInput id="endDate" name="end_date" />
+                  <DateInput id="dueDate" name="due_date" />
                 </section>
               </section>
               <section className="flex flex-row justify-end">
@@ -316,6 +297,7 @@ function AddTaskModal({
                   type="submit"
                   id="submitNewTaskBtn"
                   className="mx-1 text-xs text-white drop-shadow-sm px-3 py-1 w-auto ring-1 ring-purple2 focus:ring focus:ring-purple2  bg-purple2 active:bg-purple2 hover:bg-purple3 active:text-white hover:text-purple2 rounded-md flex flex-row place-items-center"
+                  onClick={() => onStatusChange(false)}
                 >
                   Submit
                 </button>
