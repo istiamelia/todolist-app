@@ -5,10 +5,6 @@ dotenv.config()
 import express from "express";
 // import cors
 import cors from "cors"
-import path from "path";
-//defining method-override to manipulate the HTTP methods
-import methodOverride from 'method-override';
-
 
 import todoRoutes from "./routes";
 import pool from "./config/db";
@@ -30,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //middleware to make server run at the same time with client
 app.use(cors())
-app.use(methodOverride('_method'));
+
 
 // ---- Defining Routes
 app.use("/api", todoRoutes);

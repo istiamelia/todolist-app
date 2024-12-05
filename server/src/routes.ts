@@ -70,7 +70,8 @@ router.post("/todos", async (req: Request, res: Response) => {
     try {
         //create validation for the data type and the number of the characthers
         await pool.query(taskQueries.addTasks, [task_id, task_name, task_description, task_asignee, task_status, task_priority, project_id, start_date, due_date]);
-        res.redirect('/todos')
+        res.json([task_id, task_name, task_description, task_asignee, task_status, task_priority, project_id, start_date, due_date]);
+        // res.redirect('/todos')
     } catch (error) {
         console.error("Error saving todos", error);
         res.status(500).json({ error: "Error saving todos" });
