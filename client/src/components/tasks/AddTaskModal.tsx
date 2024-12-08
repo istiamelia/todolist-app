@@ -3,36 +3,12 @@ import axios from "axios";
 import Icons from "../utils/Icons";
 import svgPaths from "../../assets/svgPaths.json";
 import { data } from "react-router-dom";
+import { Todo } from "../../models/Todo";
 
 interface Props {
   name: string;
   value: string;
   defaultChecked?: boolean;
-}
-interface Todo {
-  tasks: {
-    task_id: string;
-    task_name: string;
-    task_description: string;
-    task_asignee: string;
-    task_status: string;
-    task_priority: string;
-    start_date: Date;
-    due_date: Date;
-    deleted_date: Date;
-    created_date: Date;
-    updated_date: Date;
-    project_id: number;
-    project_name: string;
-    project_description: string;
-    created_at: Date;
-  }[];
-  projects: {
-    project_id: number;
-    project_name: string;
-    project_description: string;
-    created_at: Date;
-  }[];
 }
 
 function ProjectName() {
